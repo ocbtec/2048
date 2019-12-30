@@ -38,8 +38,6 @@ body {
   left: 0;
   right: 0;
   margin: 8% auto;
-  width: 280px;
-  height: 280px;
   background-color: #888888;
 }
 .game-field {
@@ -60,8 +58,6 @@ body {
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 280px;
-  height: 280px;
 }
 #token-label {
   font-size: 20pt;
