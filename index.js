@@ -41,7 +41,7 @@ class MyGrid {
 
 let userInput = 4;
 
-const initializeHMTL = () => {
+const initializeHTML = () => {
   let scale_string = "";
   for (let i = 0; i < userInput; i++) {
     scale_string += "1fr ";
@@ -65,5 +65,5 @@ const initializeHMTL = () => {
 const start_game = () => {
   let grid = new MyGrid(userInput);
   grid.initialize();
-  initializeHMTL();
+  initializeHTML();
 };
