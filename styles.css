@@ -76,6 +76,11 @@ body {
   border: 5px solid #ababab; */
 }
 
+#start-button {
+  width: 100px;
+  height: 40px;
+}
+
 #pos-1 {
   display: grid;
   grid-row: 1;

@@ -16,32 +16,57 @@ class MyGrid {
     for (let i = 0; i < this.size; i++) {
       this.array.push(tempArray);
     }
-    console.log(this.array);
-
-    this.spawn();
-    this.spawn();
   }
-  buttonLeft() {}
+  mergeTokens(y, xLeft, xRight) {
+    this.array[y][xRight] = 0;
+    this.array[y][xLeft] *= 2;
+    console.log(this.array);
+  }
+  buttonLeft() {
+    for (let y = 0; y < this.size; y++) {
+      for (let xLeft = 0; xLeft < this.size; xLeft++) {
+        for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
+          if (
+            this.array[y][xLeft] == this.array[y][xRight] &&
+            this.array[y][xLeft] != 0
+          ) {
+            this.mergeTokens(y, xLeft, xRight);
+            if (xRight != this.size - 1) {
+              xLeft = xRight + 1;
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
   buttonRight() {}
   buttonUp() {}
   buttonDown() {}
-  spawn() {
-    let index = Math.floor(Math.random() * (this.size * this.size - 1));
-    let yCoordinate = Math.floor(index / this.size);
-    let xCoordinate = index % this.size;
+  createNewToken() {
+    let yCoordinate;
+    let xCoordinate;
+
+    do {
+      // let index = Math.floor(
+      //   Math.random() * (this.size * this.size - 1 - 0) + 0
+      // );
+
+      let index = Math.round(Math.random() * (this.size * this.size - 1));
+      yCoordinate = Math.floor(index / this.size);
+      xCoordinate = index % this.size;
+    } while (this.array[yCoordinate][xCoordinate] != 0);
+
+    this.array[yCoordinate][xCoordinate] = 2;
     console.log(yCoordinate, xCoordinate);
 
-    if (this.array[yCoordinate][xCoordinate] === 0) {
-      this.array[yCoordinate][xCoordinate] = 2;
-    } else {
-      this.spawn();
-    }
+    return [yCoordinate, xCoordinate];
   }
 }
 
-let userInput = 4;
+let userInput = 3;
 
-const initializeHTML = () => {
+const initializeGameArea = () => {
   let scale_string = "";
   for (let i = 0; i < userInput; i++) {
     scale_string += "1fr ";
@@ -62,8 +87,56 @@ const initializeHTML = () => {
   }
 };
 
-const start_game = () => {
-  let grid = new MyGrid(userInput);
-  grid.initialize();
-  initializeHTML();
+const createNewToken = coordinates => {
+  console.log(coordinates);
+
+  let token_container = document.getElementById("token-container");
+  let token = document.createElement("div");
+
+  // grid-row and grid-column starts counting at 1
+  // thats why 1 needs to be added to the coordinates
+  let y = coordinates[0] + 1;
+  let x = coordinates[1] + 1;
+
+  token.style.cssText = `background-color: #efefef; border-radius: 5px; grid-row: ${y}; grid-column: ${x}`;
+  token.innerHTML = "2";
+  token_container.appendChild(token);
 };
+
+let grid = new MyGrid(userInput);
+
+const start_game = () => {
+  grid.initialize();
+  let token_1 = grid.createNewToken();
+  let token_2 = grid.createNewToken();
+  initializeGameArea();
+  createNewToken(token_1);
+  createNewToken(token_2);
+};
+
+const check_key = keyName => {
+  if (keyName === "ArrowUp") {
+    console.log("---------- up ----------");
+    sort_direction = "sort";
+    place_taken.sort();
+    arrow_up();
+  } else if (keyName === "ArrowDown") {
+    console.log("---------- down ----------");
+    sort_direction = "reverse";
+    place_taken.sort().reverse();
+    arrow_down();
+  } else if (keyName === "ArrowLeft") {
+    console.log("---------- left ----------");
+    grid.buttonLeft();
+  } else if (keyName === "ArrowRight") {
+    console.log("---------- right ----------");
+    sort_direction = "reverse";
+    place_taken.sort().reverse();
+    arrow_right();
+  }
+};
+
+document.addEventListener("keydown", event => {
+  const keyName = event.key;
+  check_key(keyName);
+});
