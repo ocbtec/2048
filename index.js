@@ -174,13 +174,10 @@ const createNewToken = coordinates => {
   let token_container = document.getElementById("token-container");
   let token = document.createElement("div");
 
-  // let left = coordinates[1] * (token_side_length + grid_gap_width);
-  // let top = coordinates[0] * (token_side_length + grid_gap_width);
+  let left = coordinates[1] * (token_side_length + grid_gap_width);
+  let top = coordinates[0] * (token_side_length + grid_gap_width);
 
-  let y = coordinates[0] + 1;
-  let x = coordinates[1] + 1;
-
-  token.style.cssText = `background-color: #efefef; border-radius: 5px; grid-row: ${y}; grid-column: ${x}; width: ${token_side_length}px; height: ${token_side_length}px`;
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
   token.innerHTML = "2";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
   token_container.appendChild(token);
@@ -192,45 +189,52 @@ const start_game = () => {
   // grid.initialize();
   let token_1 = grid.createNewToken();
   let token_2 = grid.createNewToken();
+  let token_3 = grid.createNewToken();
+  let token_4 = grid.createNewToken();
   initializeGameArea();
   createNewToken(token_1);
   createNewToken(token_2);
+  createNewToken(token_3);
+  createNewToken(token_4);
 };
 
 const moveLeft = () => {
-  const numberOfMovements = movement.xOrigin.length;
+  const numberOfMovements = movement.xOrigin[0].length;
 
   let token = document.getElementById(
-    `${movement.yOrigin}-${movement.xOrigin}`
+    `${movement.yOrigin[0]}-${movement.xOrigin[0]}`
   );
-  token.style.cssText += `position: absolute;`;
+  console.log(movement.yOrigin[0]);
+  console.log(movement.xOrigin[0]);
+  console.log(token);
+  token.style.zIndex = "1";
 
   const requestedMoveDistance =
-    (movement.xOrigin - movement.xDestination) *
+    (movement.xOrigin[0] - movement.xDestination[0]) *
     (token_side_length + grid_gap_width);
   let actualMoveDistance = 0;
-  const token_style_right = token.style.right;
-  console.log(token_style_right);
+  let token_style_left = token.style.left;
+
+  const leftStart = parseInt(token_style_left, 10);
 
   let id = setInterval(frame, 10);
   function frame() {
     if (actualMoveDistance == requestedMoveDistance) {
       clearInterval(id);
+      if (movement.merge[0]) {
+        let tokenDestination = document.getElementById(
+          `${movement.yDestination[0]}-${movement.xDestination[0]}`
+        );
+        tokenDestination.innerHTML *= 2;
+        token.remove();
+      }
     } else {
       actualMoveDistance++;
-      token.style.right = actualMoveDistance + "px";
+      let temp = leftStart - actualMoveDistance;
+      token.style.left = temp + "px";
+      console.log();
     }
   }
-
-  setTimeout(() => {
-    if (movement.merge) {
-      let tokenDestination = document.getElementById(
-        `${movement.yDestination}-${movement.xDestination}`
-      );
-      tokenDestination.innerHTML *= 2;
-      token.remove();
-    }
-  }, 2500);
 };
 
 const check_key = keyName => {
