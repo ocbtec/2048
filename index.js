@@ -11,6 +11,7 @@ const clearMovements = () => {
   movement.yOrigin = [];
   movement.xDestination = [];
   movement.yDestination = [];
+  movement.merge = [];
 };
 
 class MyGrid {
@@ -224,44 +225,50 @@ const start_game = () => {
 // use changes of logical grid to update HTML,
 // move tokens left and merge if possible
 const updateHtmlLeft = () => {
-  const numberOfMovements = movement.xOrigin[0].length;
+  const numberOfMovements = movement.xOrigin.length;
+  let promiseArray = [];
 
-  let token = document.getElementById(
-    `${movement.yOrigin[0]}-${movement.xOrigin[0]}`
-  );
-  console.log(movement.yOrigin[0]);
-  console.log(movement.xOrigin[0]);
-  console.log(token);
-  token.style.zIndex = "1";
+  for (let i = 0; i < numberOfMovements; i++) {
+    let promise = new Promise(function(resolve, reject) {
+      let token = document.getElementById(
+        `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
+      );
+      token.style.zIndex = "1";
 
-  const requestedMoveDistance =
-    (movement.xOrigin[0] - movement.xDestination[0]) *
-    (token_side_length + grid_gap_width);
-  let actualMoveDistance = 0;
-  let token_style_left = token.style.left;
+      const requestedMoveDistance =
+        (movement.xOrigin[i] - movement.xDestination[i]) *
+        (token_side_length + grid_gap_width);
+      let actualMoveDistance = 0;
+      let token_style_left = token.style.left;
 
-  const leftStart = parseInt(token_style_left, 10);
+      const leftStart = parseInt(token_style_left, 10);
 
-  let id = setInterval(frame, 50);
-  function frame() {
-    if (actualMoveDistance == requestedMoveDistance) {
-      clearInterval(id);
-      if (movement.merge[0]) {
-        let tokenDestination = document.getElementById(
-          `${movement.yDestination[0]}-${movement.xDestination[0]}`
-        );
-        tokenDestination.innerHTML *= 2;
-        token.remove();
-      } else {
-        token.id = `${movement.yDestination[0]}-${movement.xDestination[0]}`;
+      let id = setInterval(frame, 10);
+      function frame() {
+        if (actualMoveDistance == requestedMoveDistance) {
+          clearInterval(id);
+          // merge tokens
+          if (movement.merge[i]) {
+            let tokenDestination = document.getElementById(
+              `${movement.yDestination[i]}-${movement.xDestination[i]}`
+            );
+            tokenDestination.innerHTML *= 2;
+
+            token.remove();
+            resolve();
+          } else {
+            token.id = `${movement.yDestination[i]}-${movement.xDestination[i]}`;
+          }
+        } else {
+          actualMoveDistance++;
+          let temp = leftStart - actualMoveDistance;
+          token.style.left = temp + "px";
+        }
       }
-    } else {
-      actualMoveDistance++;
-      let temp = leftStart - actualMoveDistance;
-      token.style.left = temp + "px";
-      console.log();
-    }
+    });
+    promiseArray.push(promise);
   }
+  return promiseArray;
 };
 
 const check_key = keyName => {
@@ -272,9 +279,12 @@ const check_key = keyName => {
   } else if (keyName === "ArrowLeft") {
     console.log("---------- left ----------");
     grid.findMergeTokensLeft();
-    updateHtmlLeft();
-    grid.findMoveTokensLeft();
-    updateHtmlLeft();
+    let promiseArray = updateHtmlLeft();
+
+    Promise.all(promiseArray).then(function(values) {
+      grid.findMoveTokensLeft();
+      updateHtmlLeft();
+    });
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
   }
