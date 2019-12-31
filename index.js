@@ -87,7 +87,8 @@ class MyGrid {
 
     console.log(movement);
   }
-  buttonLeft() {
+
+  findMergeTokensLeft() {
     clearMovements();
     let count = 0;
 
@@ -110,13 +111,13 @@ class MyGrid {
     }
   }
 
-  buttonRight() {
+  findMergeTokensRight() {
     clearMovements();
   }
-  buttonUp() {
+  findMergeTokensUp() {
     clearMovements();
   }
-  buttonDown() {
+  findMergeTokensDown() {
     clearMovements();
   }
   createNewToken() {
@@ -243,7 +244,7 @@ const check_key = keyName => {
     console.log("---------- down ----------");
   } else if (keyName === "ArrowLeft") {
     console.log("---------- left ----------");
-    grid.buttonLeft();
+    grid.findMergeTokensLeft();
     moveLeft();
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
