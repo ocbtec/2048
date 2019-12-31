@@ -90,6 +90,8 @@ class MyGrid {
   buttonLeft() {
     clearMovements();
     let count = 0;
+
+    // check if tokens can be merged
     for (let y = 0; y < this.size; y++) {
       for (let xLeft = 0; xLeft < this.size; xLeft++) {
         for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
@@ -222,6 +224,8 @@ const moveLeft = () => {
         );
         tokenDestination.innerHTML *= 2;
         token.remove();
+      } else {
+        token.id = `${movement.yDestination[0]}-${movement.xDestination[0]}`;
       }
     } else {
       actualMoveDistance++;
