@@ -163,19 +163,27 @@ const initializeGameArea = () => {
     game_field.className = "background-tile";
     game_area.appendChild(game_field);
   }
+
+  let token_container = document.getElementById("token-container");
+  token_container.style.cssText = string_side_length;
+  token_container.style.gridTemplateRows = scale_string;
+  token_container.style.gridTemplateColumns = scale_string;
 };
 
 const createNewToken = coordinates => {
-  let game_area = document.getElementsByClassName("game-area")[0];
+  let token_container = document.getElementById("token-container");
   let token = document.createElement("div");
 
-  let left = coordinates[1] * (token_side_length + grid_gap_width);
-  let top = coordinates[0] * (token_side_length + grid_gap_width);
+  // let left = coordinates[1] * (token_side_length + grid_gap_width);
+  // let top = coordinates[0] * (token_side_length + grid_gap_width);
 
-  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
+  let y = coordinates[0] + 1;
+  let x = coordinates[1] + 1;
+
+  token.style.cssText = `background-color: #efefef; border-radius: 5px; grid-row: ${y}; grid-column: ${x}; width: ${token_side_length}px; height: ${token_side_length}px`;
   token.innerHTML = "2";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
-  game_area.appendChild(token);
+  token_container.appendChild(token);
 };
 
 let grid = new MyGrid(userInput);
