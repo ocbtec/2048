@@ -84,15 +84,40 @@ class MyGrid {
     movement.xDestination.push(xLeft);
     movement.yDestination.push(y);
     movement.merge.push(true);
+  }
 
-    console.log(movement);
+  moveTokenLeft(y, xLeft, xRight) {
+    this.array[y][xLeft] = this.array[y][xRight];
+    this.array[y][xRight] = 0;
+
+    movement.xOrigin.push(xRight);
+    movement.yOrigin.push(y);
+    movement.xDestination.push(xLeft);
+    movement.yDestination.push(y);
+    movement.merge.push(false);
+  }
+
+  findMoveTokensLeft() {
+    clearMovements();
+    for (let y = 0; y < this.size; y++) {
+      for (let xLeft = 0; xLeft < this.size; xLeft++) {
+        for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
+          if (this.array[y][xLeft] != 0) {
+            break;
+          }
+          if (this.array[y][xRight] != 0) {
+            this.moveTokenLeft(y, xLeft, xRight);
+            break;
+          }
+        }
+      }
+    }
   }
 
   findMergeTokensLeft() {
     clearMovements();
-    let count = 0;
-
     // check if tokens can be merged
+    // TODO: only first match gets merged
     for (let y = 0; y < this.size; y++) {
       for (let xLeft = 0; xLeft < this.size; xLeft++) {
         for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
@@ -196,7 +221,9 @@ const start_game = () => {
   createNewToken(token_4);
 };
 
-const moveLeft = () => {
+// use changes of logical grid to update HTML,
+// move tokens left and merge if possible
+const updateHtmlLeft = () => {
   const numberOfMovements = movement.xOrigin[0].length;
 
   let token = document.getElementById(
@@ -215,7 +242,7 @@ const moveLeft = () => {
 
   const leftStart = parseInt(token_style_left, 10);
 
-  let id = setInterval(frame, 10);
+  let id = setInterval(frame, 50);
   function frame() {
     if (actualMoveDistance == requestedMoveDistance) {
       clearInterval(id);
@@ -245,7 +272,9 @@ const check_key = keyName => {
   } else if (keyName === "ArrowLeft") {
     console.log("---------- left ----------");
     grid.findMergeTokensLeft();
-    moveLeft();
+    updateHtmlLeft();
+    grid.findMoveTokensLeft();
+    updateHtmlLeft();
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
   }
