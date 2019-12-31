@@ -157,31 +157,25 @@ const initializeGameArea = () => {
   game_area.style.gridTemplateRows = scale_string;
   game_area.style.gridTemplateColumns = scale_string;
 
-  let token_container = document.getElementById("token-container");
-  token_container.style.cssText = string_side_length;
-  token_container.style.gridTemplateRows = scale_string;
-  token_container.style.gridTemplateColumns = scale_string;
-
   for (let i = 0; i < userInput * userInput; i++) {
     let game_field = document.createElement("div");
     game_field.style.cssText = "background-color: #4d4d4d; border-radius: 5px;";
+    game_field.className = "background-tile";
     game_area.appendChild(game_field);
   }
 };
 
 const createNewToken = coordinates => {
-  let token_container = document.getElementById("token-container");
+  let game_area = document.getElementsByClassName("game-area")[0];
   let token = document.createElement("div");
 
-  // grid-row and grid-column starts counting at 1
-  // thats why 1 needs to be added to the coordinates
-  let y = coordinates[0] + 1;
-  let x = coordinates[1] + 1;
+  let left = coordinates[1] * (token_side_length + grid_gap_width);
+  let top = coordinates[0] * (token_side_length + grid_gap_width);
 
-  token.style.cssText = `background-color: #efefef; border-radius: 5px; grid-row: ${y}; grid-column: ${x}; width: ${token_side_length}px; height: ${token_side_length}px`;
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
   token.innerHTML = "2";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
-  token_container.appendChild(token);
+  game_area.appendChild(token);
 };
 
 let grid = new MyGrid(userInput);
