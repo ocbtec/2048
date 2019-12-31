@@ -167,13 +167,16 @@ class MyGrid {
   }
 }
 
-let userInput = 3;
+// global variables
+let sideLength;
+let grid;
+
 const token_side_length = 70; // side length in pixels
 const grid_gap_width = 5; // in pixels
 
 const initializeGameArea = () => {
   let scale_string = "";
-  for (let i = 0; i < userInput; i++) {
+  for (let i = 0; i < sideLength; i++) {
     scale_string += "1fr ";
   }
 
@@ -186,7 +189,7 @@ const initializeGameArea = () => {
   game_area.style.gridTemplateRows = scale_string;
   game_area.style.gridTemplateColumns = scale_string;
 
-  for (let i = 0; i < userInput * userInput; i++) {
+  for (let i = 0; i < sideLength * sideLength; i++) {
     let game_field = document.createElement("div");
     game_field.style.cssText = "background-color: #4d4d4d; border-radius: 5px;";
     game_field.className = "background-tile";
@@ -207,19 +210,22 @@ const createNewToken = coordinates => {
   game_area.appendChild(token);
 };
 
-let grid = new MyGrid(userInput);
-
 const start_game = () => {
   // grid.initialize();
+
+  sideLength = document.getElementById("side-length").value;
+
+  grid = new MyGrid(sideLength);
+
   let token_1 = grid.createNewToken();
   let token_2 = grid.createNewToken();
-  let token_3 = grid.createNewToken();
-  let token_4 = grid.createNewToken();
+  // let token_3 = grid.createNewToken();
+  // let token_4 = grid.createNewToken();
   initializeGameArea();
   createNewToken(token_1);
   createNewToken(token_2);
-  createNewToken(token_3);
-  createNewToken(token_4);
+  // createNewToken(token_3);
+  // createNewToken(token_4);
 };
 
 // use changes of logical grid to update HTML,
@@ -245,7 +251,7 @@ const updateHtmlLeft = () => {
 
       let id = setInterval(frame, 10);
       function frame() {
-        if (actualMoveDistance == requestedMoveDistance) {
+        if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
           // merge tokens
           if (movement.merge[i]) {
@@ -255,12 +261,12 @@ const updateHtmlLeft = () => {
             tokenDestination.innerHTML *= 2;
 
             token.remove();
-            resolve();
           } else {
             token.id = `${movement.yDestination[i]}-${movement.xDestination[i]}`;
           }
+          resolve();
         } else {
-          actualMoveDistance++;
+          actualMoveDistance += 5;
           let temp = leftStart - actualMoveDistance;
           token.style.left = temp + "px";
         }
@@ -280,11 +286,25 @@ const check_key = keyName => {
     console.log("---------- left ----------");
     grid.findMergeTokensLeft();
     let promiseArray = updateHtmlLeft();
+    let numberOfMoves = movement.xDestination.length;
+    Promise.all(promiseArray)
+      .then(() => {
+        grid.findMoveTokensLeft();
+        let promiseArray2 = updateHtmlLeft();
+        numberOfMoves += movement.xDestination.length;
 
-    Promise.all(promiseArray).then(function(values) {
-      grid.findMoveTokensLeft();
-      updateHtmlLeft();
-    });
+        Promise.all(promiseArray2).then(() => {
+          let token = grid.createNewToken();
+          if (numberOfMoves > 0) {
+            setTimeout(() => {
+              createNewToken(token);
+            }, 200);
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
   }
