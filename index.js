@@ -128,7 +128,20 @@ class MyGrid {
           if (this.array[y][xLeft] == 0) {
             break;
           }
-          if (this.array[y][xLeft] == this.array[y][xRight]) {
+
+          let checkInBetweenTokens = [];
+          let merge = true;
+          for (let i = xLeft + 1; i <= xRight - 1; i++) {
+            checkInBetweenTokens.push(this.array[y][i]);
+            if (
+              this.array[y][i] > this.array[y][xLeft] ||
+              this.array[y][i] < this.array[y][xLeft]
+            ) {
+              merge = false;
+            }
+          }
+
+          if (this.array[y][xLeft] == this.array[y][xRight] && merge == true) {
             this.mergeTokensLeft(y, xLeft, xRight);
             if (xRight != this.size - 1) {
               xLeft = xRight + 1;
@@ -189,9 +202,21 @@ class MyGrid {
           if (this.array[y][xRight] == 0) {
             break;
           }
-          if (this.array[y][xRight] == this.array[y][xLeft]) {
+
+          let checkInBetweenTokens = [];
+          let merge = true;
+          for (let i = xLeft + 1; i <= xRight - 1; i++) {
+            checkInBetweenTokens.push(this.array[y][i]);
+            if (
+              this.array[y][i] > this.array[y][xLeft] ||
+              this.array[y][i] < this.array[y][xLeft]
+            ) {
+              merge = false;
+            }
+          }
+
+          if (this.array[y][xRight] == this.array[y][xLeft] && merge == true) {
             this.mergeTokensRight(y, xLeft, xRight);
-            // not sure at all
             if (xLeft != this.size + 1) {
               xRight = xLeft - 1;
             }
