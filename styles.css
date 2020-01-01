@@ -58,7 +58,8 @@ body {
   border: 5px solid #ababab; */
 }
 
-#start-button {
+#start-button,
+#undoLastMove {
   width: 100px;
   height: 40px;
 }

@@ -54,6 +54,9 @@ class MyGrid {
     } else if (this.size == 6) {
       this.array = this.array6;
     }
+
+    // backupArray for undo function
+    this.backupArray = [];
   }
   // initialize() {
   //   // for (let y = 0; y < this.size; y++) {
@@ -206,6 +209,7 @@ const createNewToken = coordinates => {
 
   token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
   token.innerHTML = "2";
+  token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
   game_area.appendChild(token);
 };
@@ -239,7 +243,7 @@ const updateHtmlLeft = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-      token.style.zIndex = "1";
+      token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
         (movement.xOrigin[i] - movement.xDestination[i]) *
@@ -249,23 +253,24 @@ const updateHtmlLeft = () => {
 
       const leftStart = parseInt(token_style_left, 10);
 
-      let id = setInterval(frame, 10);
-      function frame() {
+      let id = setInterval(move, 10);
+      function move() {
         if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
-          // merge tokens
           if (movement.merge[i]) {
+            // merge tokens
             let tokenDestination = document.getElementById(
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
-
             token.remove();
           } else {
+            // set new ID for token after move
             token.id = `${movement.yDestination[i]}-${movement.xDestination[i]}`;
           }
           resolve();
         } else {
+          // animate token move
           actualMoveDistance += 5;
           let temp = leftStart - actualMoveDistance;
           token.style.left = temp + "px";
@@ -277,6 +282,34 @@ const updateHtmlLeft = () => {
   return promiseArray;
 };
 
+const deepCopy = array => {
+  let outputArray = [];
+  for (let i = 0; i < array.length; i++) {
+    outputArray[i] = [...array[i]];
+  }
+  return outputArray;
+};
+
+const undoLastMove = () => {
+  let tokens = document.querySelectorAll(".tokens");
+  // let tokens2 = document.getElementsByClassName("tokens");
+  // console.log(tokens2);
+  // console.log(tokens);
+
+  for (let i = 0; i < tokens.length; i++) {
+    tokens[i].remove();
+  }
+  console.log(grid.backupArray);
+
+  for (let y = 0; y < sideLength; y++) {
+    for (let x = 0; x < sideLength; x++) {
+      if (grid.backupArray[y][x] != 0) {
+        createNewToken([y, x]);
+      }
+    }
+  }
+};
+
 const check_key = keyName => {
   if (keyName === "ArrowUp") {
     console.log("---------- up ----------");
@@ -284,6 +317,14 @@ const check_key = keyName => {
     console.log("---------- down ----------");
   } else if (keyName === "ArrowLeft") {
     console.log("---------- left ----------");
+
+    // create backup before first change to logical grid
+    console.log(grid.backupArray);
+
+    grid.backupArray = deepCopy(grid.array);
+
+    console.log(grid.backupArray);
+
     grid.findMergeTokensLeft();
     let promiseArray = updateHtmlLeft();
     let numberOfMoves = movement.xDestination.length;
