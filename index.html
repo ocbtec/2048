@@ -15,10 +15,47 @@
   </head>
   <body>
     <div class="frame">
+      <div id="headline">2048</div>
+      <div class="container">
+        <div id="score-container">
+          <p id="score-label">Score</p>
+          <p id="score-value">1110</p>
+        </div>
+        <button id="start-button" onclick="start_game()">New Game</button>
+        <button id="undo-last-move" onclick="undoLastMove()">Back</button>
+      </div>
       <div class="game-area"></div>
-      <input id="side-length" type="number" />
-      <button id="start-button" onclick="start_game()">Start</button>
-      <button id="undoLastMove" onclick="undoLastMove()">Back</button>
+
+      <div id="choose-game-area-size-1">
+        <div id="game-area-size-1">
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+          <div class="size-1"></div>
+        </div>
+        <div class="size-description">
+          <span><<</span>
+          <span>Small - 3x3</span>
+          <span>>></span>
+        </div>
+      </div>
+
+      <div id="game-area-size-2"></div>
+      <div id="game-area-size-3"></div>
+      <div id="game-area-size-4"></div>
+
+      <div id="how-to-play-box">
+        <p id="how-to-play">How to play:</p>
+        <p>
+          Use your arrow keys to move the tiles. When two tiles with the same
+          number touch, they merge into one. Try to beat your high score!
+        </p>
+      </div>
     </div>
 
     <script src="/index.js"></script>
