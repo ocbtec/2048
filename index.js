@@ -140,8 +140,66 @@ class MyGrid {
     }
   }
 
+  mergeTokensRight(y, xLeft, xRight) {
+    this.array[y][xLeft] = 0;
+    this.array[y][xRight] = this.array[y][xRight] * 2;
+
+    movement.xOrigin.push(xLeft);
+    movement.yOrigin.push(y);
+    movement.xDestination.push(xRight);
+    movement.yDestination.push(y);
+    movement.merge.push(true);
+  }
+
+  moveTokenRight(y, xLeft, xRight) {
+    this.array[y][xRight] = this.array[y][xLeft];
+    this.array[y][xLeft] = 0;
+
+    movement.xOrigin.push(xLeft);
+    movement.yOrigin.push(y);
+    movement.xDestination.push(xRight);
+    movement.yDestination.push(y);
+    movement.merge.push(false);
+  }
+
+  findMoveTokensRight() {
+    clearMovements();
+    for (let y = 0; y < this.size; y++) {
+      for (let xRight = this.size - 1; xRight >= 0; xRight--) {
+        for (let xLeft = xRight - 1; xLeft >= 0; xLeft--) {
+          if (this.array[y][xRight] != 0) {
+            break;
+          }
+          if (this.array[y][xLeft] != 0) {
+            this.moveTokenRight(y, xLeft, xRight);
+            break;
+          }
+        }
+      }
+    }
+  }
+
   findMergeTokensRight() {
     clearMovements();
+    // check if tokens can be merged
+    // TODO: only first match gets merged
+    for (let y = 0; y < this.size; y++) {
+      for (let xRight = this.size - 1; xRight >= 0; xRight--) {
+        for (let xLeft = xRight - 1; xLeft >= 0; xLeft--) {
+          if (this.array[y][xRight] == 0) {
+            break;
+          }
+          if (this.array[y][xRight] == this.array[y][xLeft]) {
+            this.mergeTokensRight(y, xLeft, xRight);
+            // not sure at all
+            if (xLeft != this.size + 1) {
+              xRight = xLeft - 1;
+            }
+            break;
+          }
+        }
+      }
+    }
   }
   findMergeTokensUp() {
     clearMovements();
@@ -282,6 +340,57 @@ const updateHtmlLeft = () => {
   return promiseArray;
 };
 
+// use changes of logical grid to update HTML,
+// move tokens right and merge if possible
+const updateHtmlRight = () => {
+  const numberOfMovements = movement.xOrigin.length;
+  let promiseArray = [];
+
+  for (let i = 0; i < numberOfMovements; i++) {
+    let promise = new Promise(function(resolve, reject) {
+      let token = document.getElementById(
+        `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
+      );
+      token.style.zIndex = "1"; // TODO: is this necessary???
+
+      const requestedMoveDistance =
+        (movement.xOrigin[i] - movement.xDestination[i]) *
+        (token_side_length + grid_gap_width) *
+        -1;
+      let actualMoveDistance = 0;
+      let token_style_left = token.style.left;
+
+      const rightStart = parseInt(token_style_left, 10);
+
+      let id = setInterval(move, 10);
+      function move() {
+        if (actualMoveDistance >= requestedMoveDistance) {
+          clearInterval(id);
+          if (movement.merge[i]) {
+            // merge tokens
+            let tokenDestination = document.getElementById(
+              `${movement.yDestination[i]}-${movement.xDestination[i]}`
+            );
+            tokenDestination.innerHTML *= 2;
+            token.remove();
+          } else {
+            // set new ID for token after move
+            token.id = `${movement.yDestination[i]}-${movement.xDestination[i]}`;
+          }
+          resolve();
+        } else {
+          // animate token move
+          actualMoveDistance += 5;
+          let temp = rightStart + actualMoveDistance;
+          token.style.left = temp + "px";
+        }
+      }
+    });
+    promiseArray.push(promise);
+  }
+  return promiseArray;
+};
+
 const deepCopy = array => {
   let outputArray = [];
   for (let i = 0; i < array.length; i++) {
@@ -308,6 +417,8 @@ const undoLastMove = () => {
       }
     }
   }
+
+  grid.array = deepCopy(grid.backupArray);
 };
 
 const check_key = keyName => {
@@ -348,6 +459,35 @@ const check_key = keyName => {
       });
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
+
+    // create backup before first change to logical grid
+    console.log(grid.backupArray);
+
+    grid.backupArray = deepCopy(grid.array);
+
+    console.log(grid.backupArray);
+
+    grid.findMergeTokensRight();
+    let promiseArray = updateHtmlRight();
+    let numberOfMoves = movement.xDestination.length;
+    Promise.all(promiseArray)
+      .then(() => {
+        grid.findMoveTokensRight();
+        let promiseArray2 = updateHtmlRight();
+        numberOfMoves += movement.xDestination.length;
+
+        Promise.all(promiseArray2).then(() => {
+          let token = grid.createNewToken();
+          if (numberOfMoves > 0) {
+            setTimeout(() => {
+              createNewToken(token);
+            }, 200);
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 
