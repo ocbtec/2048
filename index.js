@@ -98,8 +98,6 @@ class MyGrid {
     movement.xDestination.push(x);
     movement.yDestination.push(yTop);
     movement.merge.push(true);
-
-    console.log(movement);
   }
 
   moveTokenUp(x, yTop, yBottom) {
@@ -111,8 +109,6 @@ class MyGrid {
     movement.xDestination.push(x);
     movement.yDestination.push(yTop);
     movement.merge.push(false);
-
-    console.log(movement);
   }
 
   findMoveTokensUp() {
@@ -168,8 +164,6 @@ class MyGrid {
     movement.xDestination.push(x);
     movement.yDestination.push(yBottom);
     movement.merge.push(true);
-
-    console.log(movement);
   }
 
   moveTokenDown(x, yTop, yBottom) {
@@ -181,8 +175,6 @@ class MyGrid {
     movement.xDestination.push(x);
     movement.yDestination.push(yBottom);
     movement.merge.push(false);
-
-    console.log(movement);
   }
 
   findMoveTokensDown() {
@@ -375,7 +367,6 @@ class MyGrid {
     } while (this.array[yCoordinate][xCoordinate] != 0);
 
     this.array[yCoordinate][xCoordinate] = 2;
-    console.log(yCoordinate, xCoordinate);
 
     return [yCoordinate, xCoordinate];
   }
@@ -448,7 +439,6 @@ const updateHtmlUp = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-      console.log(token);
 
       token.style.zIndex = "1"; // TODO: is this necessary???
 
@@ -458,12 +448,7 @@ const updateHtmlUp = () => {
       let actualMoveDistance = 0;
       let token_style_top = token.style.top;
 
-      console.log(movement);
-      console.log("requestedMoveDistance: " + requestedMoveDistance);
-
       const topStart = parseInt(token_style_top, 10);
-
-      console.log("topStart: " + topStart);
 
       let id = setInterval(move, 10);
       function move() {
@@ -506,7 +491,6 @@ const updateHtmlDown = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-      console.log(token);
 
       token.style.zIndex = "1"; // TODO: is this necessary???
 
@@ -517,12 +501,7 @@ const updateHtmlDown = () => {
       let actualMoveDistance = 0;
       let token_style_top = token.style.top;
 
-      console.log(movement);
-      console.log("requestedMoveDistance: " + requestedMoveDistance);
-
       const topStart = parseInt(token_style_top, 10);
-
-      console.log("topStart: " + topStart);
 
       let id = setInterval(move, 10);
       function move() {
@@ -565,6 +544,8 @@ const updateHtmlLeft = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
+      console.log(`${movement.yOrigin[i]}-${movement.xOrigin[i]}`);
+
       token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
@@ -666,14 +647,10 @@ const deepCopy = array => {
 
 const undoLastMove = () => {
   let tokens = document.querySelectorAll(".tokens");
-  // let tokens2 = document.getElementsByClassName("tokens");
-  // console.log(tokens2);
-  // console.log(tokens);
 
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].remove();
   }
-  console.log(grid.backupArray);
 
   for (let y = 0; y < sideLength; y++) {
     for (let x = 0; x < sideLength; x++) {
@@ -694,13 +671,8 @@ const check_key = keyName => {
 
     // create backup before first change to logical grid
 
-    console.log(grid.array);
-
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
-
-    console.log(grid.array);
-    console.log(grid.backupArray);
 
     grid.findMergeTokensUp();
     let promiseArray = updateHtmlUp();
@@ -712,8 +684,8 @@ const check_key = keyName => {
         numberOfMoves += movement.xDestination.length;
 
         Promise.all(promiseArray2).then(() => {
-          let token = grid.createNewToken();
           if (numberOfMoves > 0) {
+            let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
             }, 200);
@@ -728,13 +700,8 @@ const check_key = keyName => {
 
     // create backup before first change to logical grid
 
-    console.log(grid.array);
-
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
-
-    console.log(grid.array);
-    console.log(grid.backupArray);
 
     grid.findMergeTokensDown();
     let promiseArray = updateHtmlDown();
@@ -746,8 +713,8 @@ const check_key = keyName => {
         numberOfMoves += movement.xDestination.length;
 
         Promise.all(promiseArray2).then(() => {
-          let token = grid.createNewToken();
           if (numberOfMoves > 0) {
+            let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
             }, 200);
@@ -764,9 +731,6 @@ const check_key = keyName => {
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
 
-    console.log(grid.array);
-    console.log(grid.backupArray);
-
     grid.findMergeTokensLeft();
     let promiseArray = updateHtmlLeft();
     let numberOfMoves = movement.xDestination.length;
@@ -777,8 +741,8 @@ const check_key = keyName => {
         numberOfMoves += movement.xDestination.length;
 
         Promise.all(promiseArray2).then(() => {
-          let token = grid.createNewToken();
           if (numberOfMoves > 0) {
+            let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
             }, 200);
@@ -792,12 +756,9 @@ const check_key = keyName => {
     console.log("---------- right ----------");
 
     // create backup before first change to logical grid
-    console.log(grid.backupArray);
 
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
-
-    console.log(grid.backupArray);
 
     grid.findMergeTokensRight();
     let promiseArray = updateHtmlRight();
@@ -809,8 +770,8 @@ const check_key = keyName => {
         numberOfMoves += movement.xDestination.length;
 
         Promise.all(promiseArray2).then(() => {
-          let token = grid.createNewToken();
           if (numberOfMoves > 0) {
+            let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
             }, 200);
