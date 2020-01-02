@@ -353,7 +353,7 @@ const initializeGameArea = () => {
   }
 };
 
-const createNewToken = coordinates => {
+const createNewToken = (coordinates, value = 2) => {
   let game_area = document.getElementsByClassName("game-area")[0];
   let token = document.createElement("div");
 
@@ -361,7 +361,7 @@ const createNewToken = coordinates => {
   let top = coordinates[0] * (token_side_length + grid_gap_width);
 
   token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
-  token.innerHTML = "2";
+  token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
   game_area.appendChild(token);
@@ -573,7 +573,7 @@ const undoLastMove = () => {
   for (let y = 0; y < sideLength; y++) {
     for (let x = 0; x < sideLength; x++) {
       if (grid.backupArray[y][x] != 0) {
-        createNewToken([y, x]);
+        createNewToken([y, x], grid.backupArray[y][x]);
       }
     }
   }
