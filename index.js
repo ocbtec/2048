@@ -79,38 +79,42 @@ class MyGrid {
   //   }
   // }
 
-  mergeTokensUp(y, xLeft, xRight) {
-    this.array[y][xRight] = 0;
-    this.array[y][xLeft] = this.array[y][xLeft] * 2;
+  mergeTokensUp(x, yTop, yBottom) {
+    this.array[yBottom][x] = 0;
+    this.array[yTop][x] = this.array[yTop][x] * 2;
 
-    movement.xOrigin.push(xRight);
-    movement.yOrigin.push(y);
-    movement.xDestination.push(xLeft);
-    movement.yDestination.push(y);
+    movement.xOrigin.push(x);
+    movement.yOrigin.push(yBottom);
+    movement.xDestination.push(x);
+    movement.yDestination.push(yTop);
     movement.merge.push(true);
+
+    console.log(movement);
   }
 
-  moveTokenUp(y, xLeft, xRight) {
-    this.array[y][xLeft] = this.array[y][xRight];
-    this.array[y][xRight] = 0;
+  moveTokenUp(x, yTop, yBottom) {
+    this.array[yTop][x] = this.array[yBottom][x];
+    this.array[yBottom][x] = 0;
 
-    movement.xOrigin.push(xRight);
-    movement.yOrigin.push(y);
-    movement.xDestination.push(xLeft);
-    movement.yDestination.push(y);
+    movement.xOrigin.push(x);
+    movement.yOrigin.push(yBottom);
+    movement.xDestination.push(x);
+    movement.yDestination.push(yTop);
     movement.merge.push(false);
+
+    console.log(movement);
   }
 
   findMoveTokensUp() {
     clearMovements();
-    for (let y = 0; y < this.size; y++) {
-      for (let xLeft = 0; xLeft < this.size; xLeft++) {
-        for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
-          if (this.array[y][xLeft] != 0) {
+    for (let x = 0; x < this.size; x++) {
+      for (let yTop = 0; yTop < this.size; yTop++) {
+        for (let yBottom = yTop + 1; yBottom < this.size; yBottom++) {
+          if (this.array[yTop][x] != 0) {
             break;
           }
-          if (this.array[y][xRight] != 0) {
-            this.moveTokenUp(y, xLeft, xRight);
+          if (this.array[yBottom][x] != 0) {
+            this.moveTokenUp(x, yTop, yBottom);
             break;
           }
         }
@@ -122,29 +126,27 @@ class MyGrid {
     clearMovements();
     // check if tokens can be merged
     // TODO: only first match gets merged
-    for (let y = 0; y < this.size; y++) {
-      for (let xLeft = 0; xLeft < this.size; xLeft++) {
-        for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
-          if (this.array[y][xLeft] == 0) {
+    for (let x = 0; x < this.size; x++) {
+      for (let yTop = 0; yTop < this.size; yTop++) {
+        for (let yBottom = yTop + 1; yBottom < this.size; yBottom++) {
+          if (this.array[yTop][x] == 0) {
             break;
           }
 
-          let checkInBetweenTokens = [];
           let merge = true;
-          for (let i = xLeft + 1; i <= xRight - 1; i++) {
-            checkInBetweenTokens.push(this.array[y][i]);
+          for (let i = yTop + 1; i <= yBottom - 1; i++) {
             if (
-              this.array[y][i] > this.array[y][xLeft] ||
-              this.array[y][i] < this.array[y][xLeft]
+              this.array[i][x] > this.array[yTop][x] ||
+              (this.array[i][x] < this.array[yTop][x] && this.array[i][x] != 0)
             ) {
               merge = false;
             }
           }
 
-          if (this.array[y][xLeft] == this.array[y][xRight] && merge == true) {
-            this.mergeTokensUp(y, xLeft, xRight);
-            if (xRight != this.size - 1) {
-              xLeft = xRight + 1;
+          if (this.array[yTop][x] == this.array[yBottom][x] && merge == true) {
+            this.mergeTokensUp(x, yTop, yBottom);
+            if (yBottom != this.size - 1) {
+              yTop = yBottom + 1;
             }
             break;
           }
@@ -296,9 +298,7 @@ class MyGrid {
       }
     }
   }
-  findMergeTokensUp() {
-    clearMovements();
-  }
+
   findMergeTokensDown() {
     clearMovements();
   }
@@ -396,15 +396,22 @@ const updateHtmlUp = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
+      console.log(token);
+
       token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
-        (movement.xOrigin[i] - movement.xDestination[i]) *
+        (movement.yOrigin[i] - movement.yDestination[i]) *
         (token_side_length + grid_gap_width);
       let actualMoveDistance = 0;
-      let token_style_left = token.style.left;
+      let token_style_top = token.style.top;
 
-      const leftStart = parseInt(token_style_left, 10);
+      console.log(movement);
+      console.log("requestedMoveDistance: " + requestedMoveDistance);
+
+      const topStart = parseInt(token_style_top, 10);
+
+      console.log("topStart: " + topStart);
 
       let id = setInterval(move, 10);
       function move() {
@@ -425,8 +432,8 @@ const updateHtmlUp = () => {
         } else {
           // animate token move
           actualMoveDistance += 5;
-          let temp = leftStart - actualMoveDistance;
-          token.style.left = temp + "px";
+          let temp = topStart - actualMoveDistance;
+          token.style.top = temp + "px";
         }
       }
     });
@@ -544,6 +551,14 @@ const deepCopy = array => {
   return outputArray;
 };
 
+const deepCopy2 = array => {
+  let outputArray = [];
+  for (let i = 0; i < array.length; i++) {
+    outputArray[i] = [...array[i]];
+  }
+  return outputArray;
+};
+
 const undoLastMove = () => {
   let tokens = document.querySelectorAll(".tokens");
   // let tokens2 = document.getElementsByClassName("tokens");
@@ -571,10 +586,12 @@ const check_key = keyName => {
     console.log("---------- up ----------");
 
     // create backup before first change to logical grid
-    console.log(grid.backupArray);
 
-    grid.backupArray = deepCopy(grid.array);
+    console.log(grid.array);
 
+    grid.backupArray = deepCopy2(grid.array);
+
+    console.log(grid.array);
     console.log(grid.backupArray);
 
     grid.findMergeTokensUp();
@@ -604,10 +621,9 @@ const check_key = keyName => {
     console.log("---------- left ----------");
 
     // create backup before first change to logical grid
-    console.log(grid.backupArray);
-
     grid.backupArray = deepCopy(grid.array);
 
+    console.log(grid.array);
     console.log(grid.backupArray);
 
     grid.findMergeTokensLeft();
