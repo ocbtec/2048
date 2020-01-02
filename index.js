@@ -1,3 +1,12 @@
+// global variables
+let sideLength;
+let grid;
+const token_side_length = 70; // side length in pixels
+const grid_gap_width = 5; // in pixels
+let score = 0;
+let score_backup;
+let score_value = document.getElementById("score-value");
+
 let movement = {
   xOrigin: [],
   yOrigin: [],
@@ -82,6 +91,7 @@ class MyGrid {
   mergeTokensUp(x, yTop, yBottom) {
     this.array[yBottom][x] = 0;
     this.array[yTop][x] = this.array[yTop][x] * 2;
+    score += this.array[yTop][x];
 
     movement.xOrigin.push(x);
     movement.yOrigin.push(yBottom);
@@ -158,6 +168,7 @@ class MyGrid {
   mergeTokensLeft(y, xLeft, xRight) {
     this.array[y][xRight] = 0;
     this.array[y][xLeft] = this.array[y][xLeft] * 2;
+    score += this.array[y][xLeft];
 
     movement.xOrigin.push(xRight);
     movement.yOrigin.push(y);
@@ -230,6 +241,7 @@ class MyGrid {
   mergeTokensRight(y, xLeft, xRight) {
     this.array[y][xLeft] = 0;
     this.array[y][xRight] = this.array[y][xRight] * 2;
+    score += this.array[y][xRight];
 
     movement.xOrigin.push(xLeft);
     movement.yOrigin.push(y);
@@ -323,13 +335,6 @@ class MyGrid {
   }
 }
 
-// global variables
-let sideLength;
-let grid;
-
-const token_side_length = 70; // side length in pixels
-const grid_gap_width = 5; // in pixels
-
 const initializeGameArea = () => {
   let scale_string = "";
   for (let i = 0; i < sideLength; i++) {
@@ -388,6 +393,7 @@ const start_game = () => {
 // use changes of logical grid to update HTML,
 // move tokens left and merge if possible
 const updateHtmlUp = () => {
+  score_value.innerHTML = score;
   const numberOfMovements = movement.xOrigin.length;
   let promiseArray = [];
 
@@ -445,6 +451,7 @@ const updateHtmlUp = () => {
 // use changes of logical grid to update HTML,
 // move tokens left and merge if possible
 const updateHtmlLeft = () => {
+  score_value.innerHTML = score;
   const numberOfMovements = movement.xOrigin.length;
   let promiseArray = [];
 
@@ -495,6 +502,7 @@ const updateHtmlLeft = () => {
 // use changes of logical grid to update HTML,
 // move tokens right and merge if possible
 const updateHtmlRight = () => {
+  score_value.innerHTML = score;
   const numberOfMovements = movement.xOrigin.length;
   let promiseArray = [];
 
@@ -579,6 +587,8 @@ const undoLastMove = () => {
   }
 
   grid.array = deepCopy(grid.backupArray);
+  score_value.innerHTML = score_backup;
+  score = score_backup;
 };
 
 const check_key = keyName => {
@@ -590,6 +600,7 @@ const check_key = keyName => {
     console.log(grid.array);
 
     grid.backupArray = deepCopy2(grid.array);
+    score_backup = score;
 
     console.log(grid.array);
     console.log(grid.backupArray);
@@ -622,6 +633,7 @@ const check_key = keyName => {
 
     // create backup before first change to logical grid
     grid.backupArray = deepCopy(grid.array);
+    score_backup = score;
 
     console.log(grid.array);
     console.log(grid.backupArray);
@@ -654,6 +666,7 @@ const check_key = keyName => {
     console.log(grid.backupArray);
 
     grid.backupArray = deepCopy(grid.array);
+    score_backup = score;
 
     console.log(grid.backupArray);
 
