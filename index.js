@@ -646,6 +646,18 @@ const deepCopy = array => {
   return outputArray;
 };
 
+const disableBackButton = () => {
+  let undo_button = document.getElementById("undo-last-move");
+  undo_button.disabled = true;
+  undo_button.style.cssText = `color: #a9a9a9; background-color: #ededed`;
+};
+
+const enableBackButton = () => {
+  let undo_button = document.getElementById("undo-last-move");
+  undo_button.disabled = false;
+  undo_button.style.cssText = `color: #525252; background-color: #fdfbc1`;
+};
+
 const undoLastMove = () => {
   if (busy) return;
   let tokens = document.querySelectorAll(".tokens");
@@ -665,6 +677,7 @@ const undoLastMove = () => {
   grid.array = deepCopy(grid.backupArray);
   score_value.innerHTML = score_backup;
   score = score_backup;
+  disableBackButton();
 };
 
 const check_key = keyName => {
@@ -692,9 +705,11 @@ const check_key = keyName => {
             setTimeout(() => {
               createNewToken(token);
               busy = false;
+              enableBackButton();
             }, 200);
           } else {
             busy = false;
+            enableBackButton();
           }
         });
       })
@@ -725,9 +740,11 @@ const check_key = keyName => {
             setTimeout(() => {
               createNewToken(token);
               busy = false;
+              enableBackButton();
             }, 200);
           } else {
             busy = false;
+            enableBackButton();
           }
         });
       })
@@ -758,9 +775,11 @@ const check_key = keyName => {
             setTimeout(() => {
               createNewToken(token);
               busy = false;
+              enableBackButton();
             }, 200);
           } else {
             busy = false;
+            enableBackButton();
           }
         });
       })
@@ -791,9 +810,11 @@ const check_key = keyName => {
             setTimeout(() => {
               createNewToken(token);
               busy = false;
+              enableBackButton();
             }, 200);
           } else {
             busy = false;
+            enableBackButton();
           }
         });
       })
