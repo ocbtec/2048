@@ -647,6 +647,7 @@ const deepCopy = array => {
 };
 
 const undoLastMove = () => {
+  if (busy) return;
   let tokens = document.querySelectorAll(".tokens");
 
   for (let i = 0; i < tokens.length; i++) {
