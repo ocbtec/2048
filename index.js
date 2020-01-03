@@ -6,6 +6,7 @@ const grid_gap_width = 5; // in pixels
 let score = 0;
 let score_backup;
 let score_value = document.getElementById("score-value");
+let busy = false;
 
 let movement = {
   xOrigin: [],
@@ -669,8 +670,9 @@ const check_key = keyName => {
   if (keyName === "ArrowUp") {
     console.log("---------- up ----------");
 
+    if (busy) return;
+    busy = true;
     // create backup before first change to logical grid
-
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
 
@@ -688,7 +690,10 @@ const check_key = keyName => {
             let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
+              busy = false;
             }, 200);
+          } else {
+            busy = false;
           }
         });
       })
@@ -698,8 +703,9 @@ const check_key = keyName => {
   } else if (keyName === "ArrowDown") {
     console.log("---------- down ----------");
 
+    if (busy) return;
+    busy = true;
     // create backup before first change to logical grid
-
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
 
@@ -717,7 +723,10 @@ const check_key = keyName => {
             let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
+              busy = false;
             }, 200);
+          } else {
+            busy = false;
           }
         });
       })
@@ -727,6 +736,8 @@ const check_key = keyName => {
   } else if (keyName === "ArrowLeft") {
     console.log("---------- left ----------");
 
+    if (busy) return;
+    busy = true;
     // create backup before first change to logical grid
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
@@ -745,7 +756,10 @@ const check_key = keyName => {
             let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
+              busy = false;
             }, 200);
+          } else {
+            busy = false;
           }
         });
       })
@@ -755,8 +769,9 @@ const check_key = keyName => {
   } else if (keyName === "ArrowRight") {
     console.log("---------- right ----------");
 
+    if (busy) return;
+    busy = true;
     // create backup before first change to logical grid
-
     grid.backupArray = deepCopy(grid.array);
     score_backup = score;
 
@@ -774,7 +789,10 @@ const check_key = keyName => {
             let token = grid.createNewToken();
             setTimeout(() => {
               createNewToken(token);
+              busy = false;
             }, 200);
+          } else {
+            busy = false;
           }
         });
       })
