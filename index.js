@@ -322,6 +322,20 @@ class MyGrid {
   }
 }
 
+const disableBackButton = () => {
+  let undo_button = document.getElementById("undo-last-move");
+  undo_button.disabled = true;
+  undo_button.style.cssText = `color: #a9a9a9; background-color: #ededed`;
+};
+
+const enableBackButton = () => {
+  let undo_button = document.getElementById("undo-last-move");
+  undo_button.disabled = false;
+  undo_button.style.cssText = `color: #525252; background-color: #fdfbc1`;
+};
+
+disableBackButton();
+
 const initializeGameArea = () => {
   let scale_string = "";
   for (let i = 0; i < sideLength; i++) {
@@ -593,18 +607,6 @@ const deepCopy = array => {
     outputArray[i] = [...array[i]];
   }
   return outputArray;
-};
-
-const disableBackButton = () => {
-  let undo_button = document.getElementById("undo-last-move");
-  undo_button.disabled = true;
-  undo_button.style.cssText = `color: #a9a9a9; background-color: #ededed`;
-};
-
-const enableBackButton = () => {
-  let undo_button = document.getElementById("undo-last-move");
-  undo_button.disabled = false;
-  undo_button.style.cssText = `color: #525252; background-color: #fdfbc1`;
 };
 
 const undoLastMove = () => {
