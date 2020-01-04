@@ -27,67 +27,21 @@ const clearMovements = () => {
 class MyGrid {
   constructor(size = 3) {
     this.size = size;
-
-    this.array3 = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]
-    ];
-    this.array4 = [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0]
-    ];
-    this.array5 = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0]
-    ];
-    this.array6 = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ];
-
-    if (this.size == 3) {
-      this.array = this.array3;
-    } else if (this.size == 4) {
-      this.array = this.array4;
-    } else if (this.size == 5) {
-      this.array = this.array5;
-    } else if (this.size == 6) {
-      this.array = this.array6;
-    }
-
+    this.array = [];
     // backupArray for undo function
     this.backupArray = [];
   }
-  // initialize() {
-  //   // for (let y = 0; y < this.size; y++) {
-  //   //   for (let x = 0; x < this.size; x++) {
-  //   //     this.array[y][x] = 0;
-  //   //   }
-  //   // }
+  initialize() {
+    let tempArray = [];
 
-  //   let tempArray = [];
+    for (let i = 0; i < this.size; i++) {
+      tempArray.push(0);
+    }
 
-  //   for (let i = 0; i < this.size; i++) {
-  //     tempArray.push(0);
-  //     // tempArray[i] = 0;
-  //   }
-
-  //   for (let i = 0; i < this.size; i++) {
-  //     // this.array.push(tempArray);
-  //     this.array[i] = [];
-  //     this.array[i] = tempArray;
-  //   }
-  // }
+    for (let i = 0; i < this.size; i++) {
+      this.array.push([...tempArray]);
+    }
+  }
 
   mergeTokensUp(x, yTop, yBottom) {
     this.array[yBottom][x] = 0;
@@ -132,7 +86,6 @@ class MyGrid {
   findMergeTokensUp() {
     clearMovements();
     // check if tokens can be merged
-    // TODO: only first match gets merged
     for (let x = 0; x < this.size; x++) {
       for (let yTop = 0; yTop < this.size; yTop++) {
         for (let yBottom = yTop + 1; yBottom < this.size; yBottom++) {
@@ -198,7 +151,6 @@ class MyGrid {
   findMergeTokensDown() {
     clearMovements();
     // check if tokens can be merged
-    // TODO: only first match gets merged
     for (let x = 0; x < this.size; x++) {
       for (let yBottom = this.size - 1; yBottom >= 0; yBottom--) {
         for (let yTop = yBottom - 1; yTop >= 0; yTop--) {
@@ -264,7 +216,6 @@ class MyGrid {
   findMergeTokensLeft() {
     clearMovements();
     // check if tokens can be merged
-    // TODO: only first match gets merged
     for (let y = 0; y < this.size; y++) {
       for (let xLeft = 0; xLeft < this.size; xLeft++) {
         for (let xRight = xLeft + 1; xRight < this.size; xRight++) {
@@ -330,7 +281,6 @@ class MyGrid {
   findMergeTokensRight() {
     clearMovements();
     // check if tokens can be merged
-    // TODO: only first match gets merged
     for (let y = 0; y < this.size; y++) {
       for (let xRight = this.size - 1; xRight >= 0; xRight--) {
         for (let xLeft = xRight - 1; xLeft >= 0; xLeft--) {
@@ -358,10 +308,6 @@ class MyGrid {
     let xCoordinate;
 
     do {
-      // let index = Math.floor(
-      //   Math.random() * (this.size * this.size - 1 - 0) + 0
-      // );
-
       let index = Math.round(Math.random() * (this.size * this.size - 1));
       yCoordinate = Math.floor(index / this.size);
       xCoordinate = index % this.size;
@@ -411,21 +357,16 @@ const createNewToken = (coordinates, value = 2) => {
 };
 
 const start_game = () => {
-  // grid.initialize();
-
   sideLength = document.getElementById("side-length").value;
-
   grid = new MyGrid(sideLength);
+  grid.initialize();
 
   let token_1 = grid.createNewToken();
   let token_2 = grid.createNewToken();
-  // let token_3 = grid.createNewToken();
-  // let token_4 = grid.createNewToken();
+
   initializeGameArea();
   createNewToken(token_1);
   createNewToken(token_2);
-  // createNewToken(token_3);
-  // createNewToken(token_4);
 };
 
 // use changes of logical grid to update HTML,
