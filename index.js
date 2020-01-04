@@ -7,6 +7,8 @@ let score = 0;
 let score_backup;
 let score_value = document.getElementById("score-value");
 let busy = false;
+const animation_move_distance = 5;
+const animation_move_interval = 5;
 
 let movement = {
   xOrigin: [],
@@ -367,6 +369,11 @@ const start_game = () => {
   initializeGameArea();
   createNewToken(token_1);
   createNewToken(token_2);
+
+  document.addEventListener("keydown", event => {
+    const keyName = event.key;
+    check_key(keyName);
+  });
 };
 
 // use changes of logical grid to update HTML,
@@ -392,7 +399,7 @@ const updateHtmlUp = () => {
 
       const topStart = parseInt(token_style_top, 10);
 
-      let id = setInterval(move, 10);
+      let id = setInterval(move, animation_move_interval);
       function move() {
         if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
@@ -410,7 +417,7 @@ const updateHtmlUp = () => {
           resolve();
         } else {
           // animate token move
-          actualMoveDistance += 5;
+          actualMoveDistance += animation_move_distance;
           let temp = topStart - actualMoveDistance;
           token.style.top = temp + "px";
         }
@@ -445,7 +452,7 @@ const updateHtmlDown = () => {
 
       const topStart = parseInt(token_style_top, 10);
 
-      let id = setInterval(move, 10);
+      let id = setInterval(move, animation_move_interval);
       function move() {
         if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
@@ -463,7 +470,7 @@ const updateHtmlDown = () => {
           resolve();
         } else {
           // animate token move
-          actualMoveDistance += 5;
+          actualMoveDistance += animation_move_distance;
           let temp = topStart + actualMoveDistance;
           token.style.top = temp + "px";
         }
@@ -498,7 +505,7 @@ const updateHtmlLeft = () => {
 
       const leftStart = parseInt(token_style_left, 10);
 
-      let id = setInterval(move, 10);
+      let id = setInterval(move, animation_move_interval);
       function move() {
         if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
@@ -516,7 +523,7 @@ const updateHtmlLeft = () => {
           resolve();
         } else {
           // animate token move
-          actualMoveDistance += 5;
+          actualMoveDistance += animation_move_distance;
           let temp = leftStart - actualMoveDistance;
           token.style.left = temp + "px";
         }
@@ -550,7 +557,7 @@ const updateHtmlRight = () => {
 
       const leftStart = parseInt(token_style_left, 10);
 
-      let id = setInterval(move, 10);
+      let id = setInterval(move, animation_move_interval);
       function move() {
         if (actualMoveDistance >= requestedMoveDistance) {
           clearInterval(id);
@@ -568,7 +575,7 @@ const updateHtmlRight = () => {
           resolve();
         } else {
           // animate token move
-          actualMoveDistance += 5;
+          actualMoveDistance += animation_move_distance;
           let temp = leftStart + actualMoveDistance;
           token.style.left = temp + "px";
         }
@@ -764,8 +771,3 @@ const check_key = keyName => {
       });
   }
 };
-
-document.addEventListener("keydown", event => {
-  const keyName = event.key;
-  check_key(keyName);
-});
