@@ -374,6 +374,19 @@ const createNewToken = (coordinates, value = 2) => {
 };
 
 const start_game = () => {
+  let tokens = document.querySelectorAll(".tokens");
+  if (tokens.length != 0) {
+    for (let i = 0; i < tokens.length; i++) {
+      tokens[i].remove();
+    }
+  }
+  let background_tile = document.querySelectorAll(".background-tile");
+  if (tokens.length != 0) {
+    for (let i = 0; i < background_tile.length; i++) {
+      background_tile[i].remove();
+    }
+  }
+
   sideLength = document.getElementById("side-length").value;
   grid = new MyGrid(sideLength);
   grid.initialize();
