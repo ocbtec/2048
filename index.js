@@ -9,6 +9,7 @@ let score_value = document.getElementById("score-value");
 let busy = false;
 const animation_move_distance = 5;
 const animation_move_interval = 5;
+const token_spawn_delay = 100;
 
 let movement = {
   xOrigin: [],
@@ -654,7 +655,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
-            }, 200);
+            }, token_spawn_delay);
           } else {
             busy = false;
             enableBackButton();
@@ -689,7 +690,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
-            }, 200);
+            }, token_spawn_delay);
           } else {
             busy = false;
             enableBackButton();
@@ -724,7 +725,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
-            }, 200);
+            }, token_spawn_delay);
           } else {
             busy = false;
             enableBackButton();
@@ -759,7 +760,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
-            }, 200);
+            }, token_spawn_delay);
           } else {
             busy = false;
             enableBackButton();
