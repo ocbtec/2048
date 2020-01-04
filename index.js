@@ -651,7 +651,7 @@ const check_key = keyName => {
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
-    grid.backupArray = deepCopy(grid.array);
+    let tempBackupArray = deepCopy(grid.array);
     score_backup = score;
 
     grid.findMergeTokensUp();
@@ -665,6 +665,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
+            grid.backupArray = deepCopy(tempBackupArray);
             let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
@@ -686,7 +687,7 @@ const check_key = keyName => {
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
-    grid.backupArray = deepCopy(grid.array);
+    let tempBackupArray = deepCopy(grid.array);
     score_backup = score;
 
     grid.findMergeTokensDown();
@@ -700,6 +701,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
+            grid.backupArray = deepCopy(tempBackupArray);
             let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
@@ -721,7 +723,7 @@ const check_key = keyName => {
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
-    grid.backupArray = deepCopy(grid.array);
+    let tempBackupArray = deepCopy(grid.array);
     score_backup = score;
 
     grid.findMergeTokensLeft();
@@ -735,6 +737,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
+            grid.backupArray = deepCopy(tempBackupArray);
             let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
@@ -756,7 +759,7 @@ const check_key = keyName => {
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
-    grid.backupArray = deepCopy(grid.array);
+    let tempBackupArray = deepCopy(grid.array);
     score_backup = score;
 
     grid.findMergeTokensRight();
@@ -770,6 +773,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
+            grid.backupArray = deepCopy(tempBackupArray);
             let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
