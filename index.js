@@ -305,7 +305,7 @@ class MyGrid {
     }
   }
 
-  createNewToken() {
+  createTokenCoordinates() {
     let yCoordinate;
     let xCoordinate;
 
@@ -363,8 +363,8 @@ const start_game = () => {
   grid = new MyGrid(sideLength);
   grid.initialize();
 
-  let token_1 = grid.createNewToken();
-  let token_2 = grid.createNewToken();
+  let token_1 = grid.createTokenCoordinates();
+  let token_2 = grid.createTokenCoordinates();
 
   initializeGameArea();
   createNewToken(token_1);
@@ -649,7 +649,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
-            let token = grid.createNewToken();
+            let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
               busy = false;
@@ -684,7 +684,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
-            let token = grid.createNewToken();
+            let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
               busy = false;
@@ -719,7 +719,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
-            let token = grid.createNewToken();
+            let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
               busy = false;
@@ -754,7 +754,7 @@ const check_key = keyName => {
 
         Promise.all(promiseArray2).then(() => {
           if (numberOfMoves > 0) {
-            let token = grid.createNewToken();
+            let token = grid.createTokenCoordinates();
             setTimeout(() => {
               createNewToken(token);
               busy = false;
