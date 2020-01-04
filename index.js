@@ -86,7 +86,9 @@ class MyGrid {
     }
   }
 
-  findMergeTokensUp() {
+  // if this function is called with checkGameStatus == true it returns
+  // true if a merge is possible
+  findMergeTokensUp(checkGameStatus = false) {
     clearMovements();
     // check if tokens can be merged
     for (let x = 0; x < this.size; x++) {
@@ -104,11 +106,16 @@ class MyGrid {
             break;
           }
 
-          this.mergeTokensUp(x, yTop, yBottom);
-          break;
+          if (checkGameStatus) {
+            return true;
+          } else {
+            this.mergeTokensUp(x, yTop, yBottom);
+            break;
+          }
         }
       }
     }
+    return false;
   }
 
   mergeTokensDown(x, yTop, yBottom) {
@@ -151,7 +158,7 @@ class MyGrid {
     }
   }
 
-  findMergeTokensDown() {
+  findMergeTokensDown(checkGameStatus = false) {
     clearMovements();
     // check if tokens can be merged
     for (let x = 0; x < this.size; x++) {
@@ -168,12 +175,16 @@ class MyGrid {
           if (this.array[yBottom][x] != this.array[yTop][x]) {
             break;
           }
-
-          this.mergeTokensDown(x, yTop, yBottom);
-          break;
+          if (checkGameStatus) {
+            return true;
+          } else {
+            this.mergeTokensDown(x, yTop, yBottom);
+            break;
+          }
         }
       }
     }
+    return false;
   }
 
   mergeTokensLeft(y, xLeft, xRight) {
@@ -216,7 +227,7 @@ class MyGrid {
     }
   }
 
-  findMergeTokensLeft() {
+  findMergeTokensLeft(checkGameStatus = false) {
     clearMovements();
     // check if tokens can be merged
     for (let y = 0; y < this.size; y++) {
@@ -234,11 +245,16 @@ class MyGrid {
             break;
           }
 
-          this.mergeTokensLeft(y, xLeft, xRight);
-          break;
+          if (checkGameStatus) {
+            return true;
+          } else {
+            this.mergeTokensLeft(y, xLeft, xRight);
+            break;
+          }
         }
       }
     }
+    return false;
   }
 
   mergeTokensRight(y, xLeft, xRight) {
@@ -281,7 +297,7 @@ class MyGrid {
     }
   }
 
-  findMergeTokensRight() {
+  findMergeTokensRight(checkGameStatus = false) {
     clearMovements();
     // check if tokens can be merged
     for (let y = 0; y < this.size; y++) {
@@ -298,12 +314,16 @@ class MyGrid {
           if (this.array[y][xRight] != this.array[y][xLeft]) {
             break;
           }
-
-          this.mergeTokensRight(y, xLeft, xRight);
-          break;
+          if (checkGameStatus) {
+            return true;
+          } else {
+            this.mergeTokensRight(y, xLeft, xRight);
+            break;
+          }
         }
       }
     }
+    return false;
   }
 
   createTokenCoordinates() {
@@ -319,6 +339,25 @@ class MyGrid {
     this.array[yCoordinate][xCoordinate] = 2;
 
     return [yCoordinate, xCoordinate];
+  }
+
+  checkGameOver() {
+    let gridFull = true;
+    for (let i = 0; i < sideLength; i++) {
+      const result = this.array[i].find(value => value == 0);
+      if (result == 0) {
+        gridFull = false;
+        break;
+      }
+    }
+    if (!gridFull) {
+      return;
+    }
+    if (this.findMergeTokensUp(true)) return;
+    if (this.findMergeTokensDown(true)) return;
+    if (this.findMergeTokensLeft(true)) return;
+    if (this.findMergeTokensRight(true)) return;
+    console.log("Game Over!!!!");
   }
 }
 
@@ -671,6 +710,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
+              grid.checkGameOver();
             }, token_spawn_delay);
           } else {
             busy = false;
@@ -707,6 +747,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
+              grid.checkGameOver();
             }, token_spawn_delay);
           } else {
             busy = false;
@@ -743,6 +784,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
+              grid.checkGameOver();
             }, token_spawn_delay);
           } else {
             busy = false;
@@ -779,6 +821,7 @@ const check_key = keyName => {
               createNewToken(token);
               busy = false;
               enableBackButton();
+              grid.checkGameOver();
             }, token_spawn_delay);
           } else {
             busy = false;
