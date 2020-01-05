@@ -29,17 +29,21 @@ const sizeTextArray = [
 let sizeText = document.getElementById("size-text");
 
 const colorObject = {
-  4: "red",
-  8: "green",
-  16: "blue"
-  // 32:
-  // 64:
-  // 128:
-  // 256:
-  // 512:
-  // 1024:
-  // 2048:
-  // 4096:
+  4: "#ece0ca",
+  8: "#eab78a",
+  16: "#ec8d53",
+  32: "#f57c5f",
+  64: "#e95839",
+  128: "#f4d86d",
+  256: "#f1d04b",
+  512: "#e4c02a",
+  1024: "#e1bb12",
+  2048: "#ecc400",
+  4096: "#5eda92",
+  8096: "#26ba64",
+  16192: "#238c51",
+  32384: "#238c51",
+  64768: "#238c53"
 };
 
 let movement = {
@@ -578,6 +582,10 @@ const updateHtmlUp = () => {
             tokenDestination.innerHTML *= 2;
             tokenDestination.style.backgroundColor =
               colorObject[tokenDestination.innerHTML];
+            if (tokenDestination.innerHTML == 8) {
+              tokenDestination.style.color = `#fcfefd`;
+            }
+
             token.remove();
           } else {
             // set new ID for token after move
@@ -631,6 +639,9 @@ const updateHtmlDown = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            if (tokenDestination.innerHTML == 8) {
+              tokenDestination.style.color = `#fcfefd`;
+            }
             tokenDestination.style.backgroundColor =
               colorObject[tokenDestination.innerHTML];
             token.remove();
@@ -664,7 +675,6 @@ const updateHtmlLeft = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-      console.log(`${movement.yOrigin[i]}-${movement.xOrigin[i]}`);
 
       token.style.zIndex = "1"; // TODO: is this necessary???
 
@@ -686,6 +696,9 @@ const updateHtmlLeft = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            if (tokenDestination.innerHTML == 8) {
+              tokenDestination.style.color = `#fcfefd`;
+            }
             tokenDestination.style.backgroundColor =
               colorObject[tokenDestination.innerHTML];
             token.remove();
@@ -740,6 +753,9 @@ const updateHtmlRight = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            if (tokenDestination.innerHTML == 8) {
+              tokenDestination.style.color = `#fcfefd`;
+            }
             tokenDestination.style.backgroundColor =
               colorObject[tokenDestination.innerHTML];
             token.remove();
