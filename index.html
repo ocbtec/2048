@@ -16,47 +16,46 @@
   <body>
     <div class="frame">
       <div id="headline">2048</div>
-      <div class="container">
+      <div class="score-and-buttons-container">
         <div id="score-container">
           <p id="score-label">Score</p>
           <p id="score-value">0</p>
         </div>
-        <button id="start-button" onclick="start_game()">New Game</button>
+        <div id="arrow-container" onclick="backToChooseSize()">
+          <img id="arrow" src="img/arrow.svg" alt="" />
+        </div>
+        <button id="start-button" onclick="start_game()">Restart</button>
         <button id="undo-last-move" onclick="undoLastMove()">Back</button>
       </div>
       <div class="game-area"></div>
 
-      <input id="side-length" type="number" />
+      <!-- <input id="side-length" type="number" /> -->
 
-      <!-- <div id="choose-game-area-size-1">
-        <div id="game-area-size-1">
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-          <div class="size-1"></div>
-        </div>
-        <div class="size-description">
-          <span><<</span>
-          <span>Small - 3x3</span>
-          <span>>></span>
+      <div class="choose-game-area-container">
+        <img
+          id="choose-game-area-img"
+          src="img/placeholder-3x3.png"
+          alt=""
+          onclick="chooseSize()"
+        />
+        <div class="choose-game-area">
+          <span id="left" onclick="chooseLeft()"><<</span>
+          <span id="size-text">Small - 3x3</span>
+          <span id="right" onclick="chooseRight()">>></span>
         </div>
       </div>
 
-      <div id="game-area-size-2"></div>
-      <div id="game-area-size-3"></div>
-      <div id="game-area-size-4"></div> -->
-
+      <div id="help" onclick="showHelp()">?</div>
       <div id="how-to-play-box">
         <p id="how-to-play">How to play:</p>
         <p>
-          Use your arrow keys to move the tiles. When two tiles with the same
+          1. Choose the size of the game area
+        </p>
+        <p>
+          2. Use your arrow keys to move the tiles. When two tiles with the same
           number touch, they merge into one. Try to beat your high score!
         </p>
+        <p id="close" onclick="closeHelp()">X</p>
       </div>
     </div>
 

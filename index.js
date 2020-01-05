@@ -1,7 +1,8 @@
 // global variables
 let sideLength;
 let grid;
-const token_side_length = 70; // side length in pixels
+// const token_side_length = 70; // side length in pixels
+let token_side_length;
 const grid_gap_width = 5; // in pixels
 let score = 0;
 let score_backup;
@@ -10,6 +11,36 @@ let busy = false;
 const animation_move_distance = 5;
 const animation_move_interval = 5;
 const token_spawn_delay = 100;
+
+const chooseGameAreaSize = [
+  "img/placeholder-3x3.png",
+  "img/placeholder-4x4.png",
+  "img/placeholder-5x5.png",
+  "img/placeholder-6x6.png"
+];
+let sizeHelper = 0;
+let chooseGameAreaSizeImg = document.getElementById("choose-game-area-img");
+const sizeTextArray = [
+  "Small - 3x3",
+  "Classic - 4x4",
+  "Medium - 5x5",
+  "Big - 6x6"
+];
+let sizeText = document.getElementById("size-text");
+
+const colorObject = {
+  4: "red",
+  8: "green",
+  16: "blue"
+  // 32:
+  // 64:
+  // 128:
+  // 256:
+  // 512:
+  // 1024:
+  // 2048:
+  // 4096:
+};
 
 let movement = {
   xOrigin: [],
@@ -343,7 +374,7 @@ class MyGrid {
 
   checkGameOver() {
     let gridFull = true;
-    for (let i = 0; i < sideLength; i++) {
+    for (let i = 0; i < sizeHelper + 3; i++) {
       const result = this.array[i].find(value => value == 0);
       if (result == 0) {
         gridFull = false;
@@ -361,6 +392,61 @@ class MyGrid {
   }
 }
 
+const chooseLeft = () => {
+  if (sizeHelper == 0) {
+    sizeHelper = 4;
+  }
+  chooseGameAreaSizeImg.src = chooseGameAreaSize[--sizeHelper];
+  sizeText.innerHTML = `${sizeTextArray[sizeHelper]}`;
+};
+const chooseRight = () => {
+  if (sizeHelper == 3) {
+    sizeHelper = -1;
+  }
+  chooseGameAreaSizeImg.src = chooseGameAreaSize[++sizeHelper];
+  sizeText.innerHTML = `${sizeTextArray[sizeHelper]}`;
+};
+
+const backToChooseSize = () => {
+  document.getElementsByClassName(
+    "score-and-buttons-container"
+  )[0].style.display = "none";
+  document.getElementsByClassName("game-area")[0].style.display = "none";
+  document.getElementsByClassName(
+    "choose-game-area-container"
+  )[0].style.display = "grid";
+  score = 0;
+  score_value.innerHTML = "0";
+};
+
+const chooseSize = () => {
+  document.getElementsByClassName(
+    "choose-game-area-container"
+  )[0].style.display = "none";
+
+  document.getElementsByClassName(
+    "score-and-buttons-container"
+  )[0].style.display = "grid";
+
+  token_side_length =
+    (295 - grid_gap_width * (sizeHelper + 2)) / (sizeHelper + 3);
+
+  start_game();
+};
+
+const showHelp = () => {
+  let how_to_play_box = document.getElementById("how-to-play-box");
+  let help = document.getElementById("help");
+  how_to_play_box.style.display = "block";
+  help.style.display = "none";
+};
+const closeHelp = () => {
+  let how_to_play_box = document.getElementById("how-to-play-box");
+  let help = document.getElementById("help");
+  how_to_play_box.style.display = "none";
+  help.style.display = "block";
+};
+
 const disableBackButton = () => {
   let undo_button = document.getElementById("undo-last-move");
   undo_button.disabled = true;
@@ -377,22 +463,25 @@ disableBackButton();
 
 const initializeGameArea = () => {
   let scale_string = "";
-  for (let i = 0; i < sideLength; i++) {
+  for (let i = 0; i < sizeHelper + 3; i++) {
     scale_string += "1fr ";
   }
 
-  const game_area_side_length =
+  let game_area_side_length =
     grid.size * token_side_length + (grid.size - 1) * grid_gap_width;
-  const string_side_length = `width: ${game_area_side_length}px; height: ${game_area_side_length}px`;
 
-  let game_area = document.getElementsByClassName("game-area")[0];
-  game_area.style.cssText = string_side_length;
+  game_area_side_length = `295`;
+
+  let game_area = document.querySelector(".game-area");
+  game_area.style.display = "grid";
+  game_area.style.width = `${game_area_side_length}px`;
+  game_area.style.height = `${game_area_side_length}px`;
   game_area.style.gridTemplateRows = scale_string;
   game_area.style.gridTemplateColumns = scale_string;
 
-  for (let i = 0; i < sideLength * sideLength; i++) {
+  for (let i = 0; i < (sizeHelper + 3) * (sizeHelper + 3); i++) {
     let game_field = document.createElement("div");
-    game_field.style.cssText = "background-color: #4d4d4d; border-radius: 5px;";
+    game_field.style.cssText = `background-color: #4d4d4d; border-radius: 5px;`;
     game_field.className = "background-tile";
     game_area.appendChild(game_field);
   }
@@ -401,14 +490,21 @@ const initializeGameArea = () => {
 const createNewToken = (coordinates, value = 2) => {
   let game_area = document.getElementsByClassName("game-area")[0];
   let token = document.createElement("div");
+  let tokenNumber = document.createElement("p");
 
   let left = coordinates[1] * (token_side_length + grid_gap_width);
   let top = coordinates[0] * (token_side_length + grid_gap_width);
 
-  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;background-color: #efefef; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px`;
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: #665c52; background-color: #eee4da; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
   token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
+
+  // tokenNumber.innerHTML = value;
+  // tokenNumber.id = "token-number";
+  // tokenNumber.style.cssText = ``;
+
+  // token.appendChild(tokenNumber);
   game_area.appendChild(token);
 };
 
@@ -426,8 +522,12 @@ const start_game = () => {
     }
   }
 
-  sideLength = document.getElementById("side-length").value;
-  grid = new MyGrid(sideLength);
+  score = 0;
+  score_value.innerHTML = "0";
+
+  disableBackButton();
+
+  grid = new MyGrid(sizeHelper + 3);
   grid.initialize();
 
   let token_1 = grid.createTokenCoordinates();
@@ -456,7 +556,7 @@ const updateHtmlUp = () => {
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
 
-      token.style.zIndex = "1"; // TODO: is this necessary???
+      //token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
         (movement.yOrigin[i] - movement.yDestination[i]) *
@@ -476,6 +576,8 @@ const updateHtmlUp = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            tokenDestination.style.backgroundColor =
+              colorObject[tokenDestination.innerHTML];
             token.remove();
           } else {
             // set new ID for token after move
@@ -529,6 +631,8 @@ const updateHtmlDown = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            tokenDestination.style.backgroundColor =
+              colorObject[tokenDestination.innerHTML];
             token.remove();
           } else {
             // set new ID for token after move
@@ -582,6 +686,8 @@ const updateHtmlLeft = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            tokenDestination.style.backgroundColor =
+              colorObject[tokenDestination.innerHTML];
             token.remove();
           } else {
             // set new ID for token after move
@@ -634,6 +740,8 @@ const updateHtmlRight = () => {
               `${movement.yDestination[i]}-${movement.xDestination[i]}`
             );
             tokenDestination.innerHTML *= 2;
+            tokenDestination.style.backgroundColor =
+              colorObject[tokenDestination.innerHTML];
             token.remove();
           } else {
             // set new ID for token after move
@@ -669,8 +777,8 @@ const undoLastMove = () => {
     tokens[i].remove();
   }
 
-  for (let y = 0; y < sideLength; y++) {
-    for (let x = 0; x < sideLength; x++) {
+  for (let y = 0; y < sizeHelper + 3; y++) {
+    for (let x = 0; x < sizeHelper + 3; x++) {
       if (grid.backupArray[y][x] != 0) {
         createNewToken([y, x], grid.backupArray[y][x]);
       }
