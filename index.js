@@ -1018,7 +1018,7 @@ const toggleFullscreen = () => {
 };
 
 // document.webkitCancelFullScreen();
-let container = document.querySelector(".game-area");
+let container = document.querySelector(".frame");
 
 container.addEventListener("touchstart", startTouch, false);
 container.addEventListener("touchmove", moveTouch, false);
