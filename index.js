@@ -10,6 +10,7 @@ let busy = false;
 const animation_move_distance = 5;
 const animation_move_interval = 5;
 const token_spawn_delay = 100;
+let game_over = false;
 
 const chooseGameAreaSize = [
   "img/3x3.png",
@@ -392,9 +393,21 @@ class MyGrid {
     if (this.findMergeTokensDown(true)) return;
     if (this.findMergeTokensLeft(true)) return;
     if (this.findMergeTokensRight(true)) return;
-    console.log("Game Over!!!!"); // TODO: game over overlay
+
+    game_over = true;
   }
 }
+
+const gameOver = () => {
+  setTimeout(() => {
+    document.querySelector(".game-area").style.opacity = "0.5";
+    document.querySelector(".game-over").style.display = "block";
+    document.addEventListener("click", () => {
+      document.querySelector(".game-area").style.opacity = "1";
+      document.querySelector(".game-over").style.display = "none";
+    });
+  }, 500);
+};
 
 const chooseLeft = () => {
   if (sizeHelper == 0) {
@@ -526,6 +539,7 @@ const start_game = () => {
 
   score = 0;
   score_value.innerHTML = "0";
+  game_over = false;
 
   disableBackButton();
 
@@ -822,6 +836,7 @@ const right = () => {
             busy = false;
             enableBackButton();
             grid.checkGameOver();
+            if (game_over == true) gameOver();
           }, token_spawn_delay);
         } else {
           busy = false;
@@ -859,6 +874,7 @@ const left = () => {
             busy = false;
             enableBackButton();
             grid.checkGameOver();
+            if (game_over == true) gameOver();
           }, token_spawn_delay);
         } else {
           busy = false;
@@ -896,6 +912,7 @@ const down = () => {
             busy = false;
             enableBackButton();
             grid.checkGameOver();
+            if (game_over == true) gameOver();
           }, token_spawn_delay);
         } else {
           busy = false;
@@ -933,6 +950,7 @@ const up = () => {
             busy = false;
             enableBackButton();
             grid.checkGameOver();
+            if (game_over == true) gameOver();
           }, token_spawn_delay);
         } else {
           busy = false;

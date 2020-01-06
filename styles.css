@@ -154,6 +154,19 @@ p {
   margin-bottom: 10px;
 }
 
+.game-over {
+  display: none;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 200px;
+  text-align: center;
+  line-height: 100px;
+  color: #eee6d9;
+  background-color: #313131cf;
+  font-size: 20pt;
+}
+
 /* @media (-webkit-device-pixel-ratio: 1) { */
 /* @media screen and (min-width: 500px) and (max-width: 699px) {
   .frame {
