@@ -94,14 +94,9 @@ body {
   opacity: 0.5;
 } */
 
-/* .choose-game-area-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  text-align: center;
-  display: flex;
-  justify-content: space-evenly;
-} */
+.choose-game-area-container {
+  margin-top: 50px;
+}
 .choose-game-area {
   display: flex;
   justify-content: space-evenly;
