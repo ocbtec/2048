@@ -963,6 +963,10 @@ const up = () => {
     });
 };
 
+const escape = () => {
+  document.getElementById("fullscreen-icon").style.display = "block";
+};
+
 const check_key = keyName => {
   if (keyName === "ArrowUp") {
     up();
@@ -974,7 +978,46 @@ const check_key = keyName => {
     right();
   }
 };
-document.webkitCancelFullScreen();
+
+const toggleFullscreen = () => {
+  let elem = document.querySelector("body");
+
+  document.addEventListener("keydown", event => {
+    const keyName = event.key;
+    // check_key(keyName);
+    if (keyName === "Escape") {
+      console.log("Escape");
+    }
+  });
+
+  if (!document.fullscreenElement) {
+    document.getElementById("fullscreen-container").style.display = "none";
+    console.log("fullscreen");
+    elem.requestFullscreen().catch(err => {
+      alert(
+        `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+      );
+    });
+  }
+
+  document.addEventListener("fullscreenchange", exitHandler);
+  document.addEventListener("webkitfullscreenchange", exitHandler);
+  document.addEventListener("mozfullscreenchange", exitHandler);
+  document.addEventListener("MSFullscreenChange", exitHandler);
+
+  function exitHandler() {
+    if (
+      !document.fullscreenElement &&
+      !document.webkitIsFullScreen &&
+      !document.mozFullScreen &&
+      !document.msFullscreenElement
+    ) {
+      document.getElementById("fullscreen-container").style.display = "block";
+    }
+  }
+};
+
+// document.webkitCancelFullScreen();
 let container = document.querySelector(".game-area");
 
 container.addEventListener("touchstart", startTouch, false);
