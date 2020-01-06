@@ -1,7 +1,6 @@
 // global variables
 let sideLength;
 let grid;
-// const token_side_length = 70; // side length in pixels
 let token_side_length;
 const grid_gap_width = 5; // in pixels
 let score = 0;
@@ -393,7 +392,7 @@ class MyGrid {
     if (this.findMergeTokensDown(true)) return;
     if (this.findMergeTokensLeft(true)) return;
     if (this.findMergeTokensRight(true)) return;
-    console.log("Game Over!!!!");
+    console.log("Game Over!!!!"); // TODO: game over overlay
   }
 }
 
@@ -495,7 +494,6 @@ const initializeGameArea = () => {
 const createNewToken = (coordinates, value = 2) => {
   let game_area = document.getElementsByClassName("game-area")[0];
   let token = document.createElement("div");
-  let tokenNumber = document.createElement("p");
 
   let left = coordinates[1] * (token_side_length + grid_gap_width);
   let top = coordinates[0] * (token_side_length + grid_gap_width);
@@ -509,12 +507,6 @@ const createNewToken = (coordinates, value = 2) => {
   token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
-
-  // tokenNumber.innerHTML = value;
-  // tokenNumber.id = "token-number";
-  // tokenNumber.style.cssText = ``;
-
-  // token.appendChild(tokenNumber);
   game_area.appendChild(token);
 };
 
@@ -565,8 +557,6 @@ const updateHtmlUp = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-
-      //token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
         (movement.yOrigin[i] - movement.yDestination[i]) *
@@ -622,8 +612,6 @@ const updateHtmlDown = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-
-      token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
         (movement.yOrigin[i] - movement.yDestination[i]) *
@@ -681,8 +669,6 @@ const updateHtmlLeft = () => {
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
 
-      token.style.zIndex = "1"; // TODO: is this necessary???
-
       const requestedMoveDistance =
         (movement.xOrigin[i] - movement.xDestination[i]) *
         (token_side_length + grid_gap_width);
@@ -737,7 +723,6 @@ const updateHtmlRight = () => {
       let token = document.getElementById(
         `${movement.yOrigin[i]}-${movement.xOrigin[i]}`
       );
-      token.style.zIndex = "1"; // TODO: is this necessary???
 
       const requestedMoveDistance =
         (movement.xOrigin[i] - movement.xDestination[i]) *
@@ -814,8 +799,6 @@ const undoLastMove = () => {
 
 const check_key = keyName => {
   if (keyName === "ArrowUp") {
-    console.log("---------- up ----------");
-
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
@@ -851,8 +834,6 @@ const check_key = keyName => {
         console.log(err);
       });
   } else if (keyName === "ArrowDown") {
-    console.log("---------- down ----------");
-
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
@@ -888,8 +869,6 @@ const check_key = keyName => {
         console.log(err);
       });
   } else if (keyName === "ArrowLeft") {
-    console.log("---------- left ----------");
-
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
@@ -925,8 +904,6 @@ const check_key = keyName => {
         console.log(err);
       });
   } else if (keyName === "ArrowRight") {
-    console.log("---------- right ----------");
-
     if (busy) return;
     busy = true;
     // create backup before first change to logical grid
