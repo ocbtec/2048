@@ -1050,26 +1050,26 @@ let myElement = document.querySelector("body");
 //   }
 // });
 
-let body = document.querySelector("body");
-let hammertime = new Hammer(body);
-hammertime.on("swipe", function(ev) {
-  console.log(ev);
-  if (ev.direction == 8) {
-    console.log("up");
-    up();
-  } else if (ev.direction == 16) {
-    console.log("down");
-    down();
-  } else if (ev.direction == 2) {
-    console.log("left");
-    left();
-  } else if (ev.direction == 4) {
-    console.log("right");
-    right();
-  }
-});
+// let body = document.querySelector("body");
+// let hammertime = new Hammer(body);
+// hammertime.on("swipe", function(ev) {
+//   console.log(ev);
+//   if (ev.direction == 8) {
+//     console.log("up");
+//     up();
+//   } else if (ev.direction == 16) {
+//     console.log("down");
+//     down();
+//   } else if (ev.direction == 2) {
+//     console.log("left");
+//     left();
+//   } else if (ev.direction == 4) {
+//     console.log("right");
+//     right();
+//   }
+// });
 
-hammertime.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
+// hammertime.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
 document.webkitCancelFullScreen();
 let container = document.querySelector(".frame");
