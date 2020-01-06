@@ -22,7 +22,7 @@
           <p id="score-value">0</p>
         </div>
         <div id="arrow-container" onclick="backToChooseSize()">
-          <img id="arrow" src="img/arrow.svg" alt="" />
+          <img id="arrow" src="img/back-arrow.svg" alt="" />
         </div>
         <button id="start-button" onclick="start_game()">Restart</button>
         <button id="undo-last-move" onclick="undoLastMove()">Back</button>
@@ -39,9 +39,20 @@
           onclick="chooseSize()"
         />
         <div class="choose-game-area">
-          <span id="left" onclick="chooseLeft()"><<</span>
+          <img
+            id="left"
+            onclick="chooseLeft()"
+            src="img/left-arrow.svg"
+            alt=""
+          />
           <span id="size-text">Small - 3x3</span>
-          <span id="right" onclick="chooseRight()">>></span>
+
+          <img
+            id="right"
+            onclick="chooseLeft()"
+            src="img/right-arrow.svg"
+            alt=""
+          />
         </div>
       </div>
 
