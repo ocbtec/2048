@@ -487,8 +487,6 @@ const initializeGameArea = () => {
   let game_area_side_length =
     grid.size * token_side_length + (grid.size - 1) * grid_gap_width;
 
-  game_area_side_length = `295`;
-
   let game_area = document.querySelector(".game-area");
   game_area.style.display = "grid";
   game_area.style.width = `${game_area_side_length}px`;
@@ -1062,62 +1060,62 @@ hammertime.on("swipe", function(ev) {
 
 hammertime.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
-// document.webkitCancelFullScreen();
-// let container = document.querySelector(".frame");
+document.webkitCancelFullScreen();
+let container = document.querySelector(".frame");
 
-// container.addEventListener("touchstart", startTouch, false);
-// container.addEventListener("touchmove", moveTouch, false);
+container.addEventListener("touchstart", startTouch, false);
+container.addEventListener("touchmove", moveTouch, false);
 
-// // Swipe Up / Down / Left / Right
-// let initialX = null;
-// let initialY = null;
+// Swipe Up / Down / Left / Right
+let initialX = null;
+let initialY = null;
 
-// function startTouch(e) {
-//   initialX = e.touches[0].clientX;
-//   initialY = e.touches[0].clientY;
-// }
+function startTouch(e) {
+  initialX = e.touches[0].clientX;
+  initialY = e.touches[0].clientY;
+}
 
-// function moveTouch(e) {
-//   if (initialX === null) {
-//     return;
-//   }
+function moveTouch(e) {
+  if (initialX === null) {
+    return;
+  }
 
-//   if (initialY === null) {
-//     return;
-//   }
+  if (initialY === null) {
+    return;
+  }
 
-//   let currentX = e.touches[0].clientX;
-//   let currentY = e.touches[0].clientY;
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
 
-//   let diffX = initialX - currentX;
-//   let diffY = initialY - currentY;
+  let diffX = initialX - currentX;
+  let diffY = initialY - currentY;
 
-//   if (Math.abs(diffX) > Math.abs(diffY)) {
-//     // sliding horizontally
-//     if (diffX > 0) {
-//       // swiped left
-//       console.log("swiped left");
-//       left();
-//     } else {
-//       // swiped right
-//       console.log("swiped right");
-//       right();
-//     }
-//   } else {
-//     // sliding vertically
-//     if (diffY > 0) {
-//       // swiped up
-//       console.log("swiped up");
-//       up();
-//     } else {
-//       // swiped down
-//       console.log("swiped down");
-//       down();
-//     }
-//   }
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // sliding horizontally
+    if (diffX > 0) {
+      // swiped left
+      console.log("swiped left");
+      left();
+    } else {
+      // swiped right
+      console.log("swiped right");
+      right();
+    }
+  } else {
+    // sliding vertically
+    if (diffY > 0) {
+      // swiped up
+      console.log("swiped up");
+      up();
+    } else {
+      // swiped down
+      console.log("swiped down");
+      down();
+    }
+  }
 
-//   initialX = null;
-//   initialY = null;
+  initialX = null;
+  initialY = null;
 
-//   e.preventDefault();
-// }
+  e.preventDefault();
+}
