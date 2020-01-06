@@ -13,22 +13,23 @@ const animation_move_interval = 5;
 const token_spawn_delay = 100;
 
 const chooseGameAreaSize = [
-  "img/placeholder-3x3.png",
-  "img/placeholder-4x4.png",
-  "img/placeholder-5x5.png",
-  "img/placeholder-6x6.png"
+  "img/3x3.png",
+  "img/4x4.png",
+  "img/5x5.png",
+  "img/6x6.png"
 ];
 let sizeHelper = 0;
 let chooseGameAreaSizeImg = document.getElementById("choose-game-area-img");
 const sizeTextArray = [
   "Small - 3x3",
   "Classic - 4x4",
-  "Medium - 5x5",
+  "Large - 5x5",
   "Big - 6x6"
 ];
 let sizeText = document.getElementById("size-text");
 
 const colorObject = {
+  2: "#eee4da",
   4: "#ece0ca",
   8: "#eab78a",
   16: "#ec8d53",
@@ -498,8 +499,8 @@ const createNewToken = (coordinates, value = 2) => {
 
   let left = coordinates[1] * (token_side_length + grid_gap_width);
   let top = coordinates[0] * (token_side_length + grid_gap_width);
-
-  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: #665c52; background-color: #eee4da; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
+  // #eee4da
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: #665c52; background-color: ${colorObject[value]}; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
   token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
@@ -585,7 +586,6 @@ const updateHtmlUp = () => {
             if (tokenDestination.innerHTML == 8) {
               tokenDestination.style.color = `#fcfefd`;
             }
-
             token.remove();
           } else {
             // set new ID for token after move
