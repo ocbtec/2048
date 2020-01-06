@@ -418,7 +418,7 @@ const backToChooseSize = () => {
   document.getElementsByClassName("game-area")[0].style.display = "none";
   document.getElementsByClassName(
     "choose-game-area-container"
-  )[0].style.display = "grid";
+  )[0].style.cssText = "display: grid; margin-top:50px";
   score = 0;
   score_value.innerHTML = "0";
 };
@@ -797,146 +797,221 @@ const undoLastMove = () => {
   disableBackButton();
 };
 
+const right = () => {
+  if (busy) return;
+  busy = true;
+  // create backup before first change to logical grid
+  let tempBackupArray = deepCopy(grid.array);
+  score_backup = score;
+
+  grid.findMergeTokensRight();
+  let promiseArray = updateHtmlRight();
+  let numberOfMoves = movement.xDestination.length;
+  Promise.all(promiseArray)
+    .then(() => {
+      grid.findMoveTokensRight();
+      let promiseArray2 = updateHtmlRight();
+      numberOfMoves += movement.xDestination.length;
+
+      Promise.all(promiseArray2).then(() => {
+        if (numberOfMoves > 0) {
+          grid.backupArray = deepCopy(tempBackupArray);
+          let token = grid.createTokenCoordinates();
+          setTimeout(() => {
+            createNewToken(token);
+            busy = false;
+            enableBackButton();
+            grid.checkGameOver();
+          }, token_spawn_delay);
+        } else {
+          busy = false;
+          enableBackButton();
+        }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const left = () => {
+  if (busy) return;
+  busy = true;
+  // create backup before first change to logical grid
+  let tempBackupArray = deepCopy(grid.array);
+  score_backup = score;
+
+  grid.findMergeTokensLeft();
+  let promiseArray = updateHtmlLeft();
+  let numberOfMoves = movement.xDestination.length;
+  Promise.all(promiseArray)
+    .then(() => {
+      grid.findMoveTokensLeft();
+      let promiseArray2 = updateHtmlLeft();
+      numberOfMoves += movement.xDestination.length;
+
+      Promise.all(promiseArray2).then(() => {
+        if (numberOfMoves > 0) {
+          grid.backupArray = deepCopy(tempBackupArray);
+          let token = grid.createTokenCoordinates();
+          setTimeout(() => {
+            createNewToken(token);
+            busy = false;
+            enableBackButton();
+            grid.checkGameOver();
+          }, token_spawn_delay);
+        } else {
+          busy = false;
+          enableBackButton();
+        }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const down = () => {
+  if (busy) return;
+  busy = true;
+  // create backup before first change to logical grid
+  let tempBackupArray = deepCopy(grid.array);
+  score_backup = score;
+
+  grid.findMergeTokensDown();
+  let promiseArray = updateHtmlDown();
+  let numberOfMoves = movement.xDestination.length;
+  Promise.all(promiseArray)
+    .then(() => {
+      grid.findMoveTokensDown();
+      let promiseArray2 = updateHtmlDown();
+      numberOfMoves += movement.xDestination.length;
+
+      Promise.all(promiseArray2).then(() => {
+        if (numberOfMoves > 0) {
+          grid.backupArray = deepCopy(tempBackupArray);
+          let token = grid.createTokenCoordinates();
+          setTimeout(() => {
+            createNewToken(token);
+            busy = false;
+            enableBackButton();
+            grid.checkGameOver();
+          }, token_spawn_delay);
+        } else {
+          busy = false;
+          enableBackButton();
+        }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const up = () => {
+  if (busy) return;
+  busy = true;
+  // create backup before first change to logical grid
+  let tempBackupArray = deepCopy(grid.array);
+  score_backup = score;
+
+  grid.findMergeTokensUp();
+  let promiseArray = updateHtmlUp();
+  let numberOfMoves = movement.xDestination.length;
+  Promise.all(promiseArray)
+    .then(() => {
+      grid.findMoveTokensUp();
+      let promiseArray2 = updateHtmlUp();
+      numberOfMoves += movement.xDestination.length;
+
+      Promise.all(promiseArray2).then(() => {
+        if (numberOfMoves > 0) {
+          grid.backupArray = deepCopy(tempBackupArray);
+          let token = grid.createTokenCoordinates();
+          setTimeout(() => {
+            createNewToken(token);
+            busy = false;
+            enableBackButton();
+            grid.checkGameOver();
+          }, token_spawn_delay);
+        } else {
+          busy = false;
+          enableBackButton();
+        }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 const check_key = keyName => {
   if (keyName === "ArrowUp") {
-    if (busy) return;
-    busy = true;
-    // create backup before first change to logical grid
-    let tempBackupArray = deepCopy(grid.array);
-    score_backup = score;
-
-    grid.findMergeTokensUp();
-    let promiseArray = updateHtmlUp();
-    let numberOfMoves = movement.xDestination.length;
-    Promise.all(promiseArray)
-      .then(() => {
-        grid.findMoveTokensUp();
-        let promiseArray2 = updateHtmlUp();
-        numberOfMoves += movement.xDestination.length;
-
-        Promise.all(promiseArray2).then(() => {
-          if (numberOfMoves > 0) {
-            grid.backupArray = deepCopy(tempBackupArray);
-            let token = grid.createTokenCoordinates();
-            setTimeout(() => {
-              createNewToken(token);
-              busy = false;
-              enableBackButton();
-              grid.checkGameOver();
-            }, token_spawn_delay);
-          } else {
-            busy = false;
-            enableBackButton();
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    up();
   } else if (keyName === "ArrowDown") {
-    if (busy) return;
-    busy = true;
-    // create backup before first change to logical grid
-    let tempBackupArray = deepCopy(grid.array);
-    score_backup = score;
-
-    grid.findMergeTokensDown();
-    let promiseArray = updateHtmlDown();
-    let numberOfMoves = movement.xDestination.length;
-    Promise.all(promiseArray)
-      .then(() => {
-        grid.findMoveTokensDown();
-        let promiseArray2 = updateHtmlDown();
-        numberOfMoves += movement.xDestination.length;
-
-        Promise.all(promiseArray2).then(() => {
-          if (numberOfMoves > 0) {
-            grid.backupArray = deepCopy(tempBackupArray);
-            let token = grid.createTokenCoordinates();
-            setTimeout(() => {
-              createNewToken(token);
-              busy = false;
-              enableBackButton();
-              grid.checkGameOver();
-            }, token_spawn_delay);
-          } else {
-            busy = false;
-            enableBackButton();
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    down();
   } else if (keyName === "ArrowLeft") {
-    if (busy) return;
-    busy = true;
-    // create backup before first change to logical grid
-    let tempBackupArray = deepCopy(grid.array);
-    score_backup = score;
-
-    grid.findMergeTokensLeft();
-    let promiseArray = updateHtmlLeft();
-    let numberOfMoves = movement.xDestination.length;
-    Promise.all(promiseArray)
-      .then(() => {
-        grid.findMoveTokensLeft();
-        let promiseArray2 = updateHtmlLeft();
-        numberOfMoves += movement.xDestination.length;
-
-        Promise.all(promiseArray2).then(() => {
-          if (numberOfMoves > 0) {
-            grid.backupArray = deepCopy(tempBackupArray);
-            let token = grid.createTokenCoordinates();
-            setTimeout(() => {
-              createNewToken(token);
-              busy = false;
-              enableBackButton();
-              grid.checkGameOver();
-            }, token_spawn_delay);
-          } else {
-            busy = false;
-            enableBackButton();
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    left();
   } else if (keyName === "ArrowRight") {
-    if (busy) return;
-    busy = true;
-    // create backup before first change to logical grid
-    let tempBackupArray = deepCopy(grid.array);
-    score_backup = score;
-
-    grid.findMergeTokensRight();
-    let promiseArray = updateHtmlRight();
-    let numberOfMoves = movement.xDestination.length;
-    Promise.all(promiseArray)
-      .then(() => {
-        grid.findMoveTokensRight();
-        let promiseArray2 = updateHtmlRight();
-        numberOfMoves += movement.xDestination.length;
-
-        Promise.all(promiseArray2).then(() => {
-          if (numberOfMoves > 0) {
-            grid.backupArray = deepCopy(tempBackupArray);
-            let token = grid.createTokenCoordinates();
-            setTimeout(() => {
-              createNewToken(token);
-              busy = false;
-              enableBackButton();
-              grid.checkGameOver();
-            }, token_spawn_delay);
-          } else {
-            busy = false;
-            enableBackButton();
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    right();
   }
 };
+document.webkitCancelFullScreen();
+let container = document.querySelector(".game-area");
+
+container.addEventListener("touchstart", startTouch, false);
+container.addEventListener("touchmove", moveTouch, false);
+
+// Swipe Up / Down / Left / Right
+let initialX = null;
+let initialY = null;
+
+function startTouch(e) {
+  initialX = e.touches[0].clientX;
+  initialY = e.touches[0].clientY;
+}
+
+function moveTouch(e) {
+  if (initialX === null) {
+    return;
+  }
+
+  if (initialY === null) {
+    return;
+  }
+
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
+
+  let diffX = initialX - currentX;
+  let diffY = initialY - currentY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // sliding horizontally
+    if (diffX > 0) {
+      // swiped left
+      console.log("swiped left");
+      left();
+    } else {
+      // swiped right
+      console.log("swiped right");
+      right();
+    }
+  } else {
+    // sliding vertically
+    if (diffY > 0) {
+      // swiped up
+      console.log("swiped up");
+      up();
+    } else {
+      // swiped down
+      console.log("swiped down");
+      down();
+    }
+  }
+
+  initialX = null;
+  initialY = null;
+
+  e.preventDefault();
+}
