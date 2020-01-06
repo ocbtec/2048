@@ -8,7 +8,7 @@ let score_backup;
 let score_value = document.getElementById("score-value");
 let busy = false;
 const animation_move_distance = 5;
-const animation_move_interval = 5;
+const animation_move_interval = 1;
 const token_spawn_delay = 100;
 let game_over = false;
 
