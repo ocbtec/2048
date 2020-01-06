@@ -514,7 +514,18 @@ const createNewToken = (coordinates, value = 2) => {
     colorHelper = "#fcfefd";
   }
 
-  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: ${colorHelper}; background-color: ${colorObject[value]}; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
+  let font_size = "30pt";
+  if (grid.size == 4) {
+    font_size = "22pt";
+  }
+  if (grid.size == 5) {
+    font_size = "18pt";
+  }
+  if (grid.size == 6) {
+    font_size = "14pt";
+  }
+
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: ${colorHelper}; background-color: ${colorObject[value]}; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: ${font_size}`;
   token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
