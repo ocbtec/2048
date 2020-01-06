@@ -499,8 +499,13 @@ const createNewToken = (coordinates, value = 2) => {
 
   let left = coordinates[1] * (token_side_length + grid_gap_width);
   let top = coordinates[0] * (token_side_length + grid_gap_width);
-  // #eee4da
-  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: #665c52; background-color: ${colorObject[value]}; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
+
+  let colorHelper = "#665c52";
+  if (value > 4) {
+    colorHelper = "#fcfefd";
+  }
+
+  token.style.cssText = `position: absolute; top: ${top}px; left: ${left}px ;color: ${colorHelper}; background-color: ${colorObject[value]}; border-radius: 5px; width: ${token_side_length}px; height: ${token_side_length}px; line-height: ${token_side_length}px; text-align: center; font-size: 20pt`;
   token.innerHTML = value;
   token.className = "tokens";
   token.id = `${coordinates[0]}-${coordinates[1]}`;
