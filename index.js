@@ -467,14 +467,18 @@ const closeHelp = () => {
 
 const disableBackButton = () => {
   let undo_button = document.getElementById("undo-last-move");
+  let undo_button_img = document.getElementById("undo-last-move-img");
   undo_button.disabled = true;
   undo_button.style.cssText = `color: #a9a9a9; background-color: #ededed`;
+  undo_button_img.src = "img/undo-disabled.svg";
 };
 
 const enableBackButton = () => {
   let undo_button = document.getElementById("undo-last-move");
+  let undo_button_img = document.getElementById("undo-last-move-img");
   undo_button.disabled = false;
   undo_button.style.cssText = `color: #525252; background-color: #fdfbc1`;
+  undo_button_img.src = "img/undo.svg";
 };
 
 disableBackButton();

@@ -36,11 +36,13 @@
           <p id="score-label">Score</p>
           <p id="score-value">0</p>
         </div>
-        <div id="arrow-container" onclick="backToChooseSize()">
-          <img id="arrow" src="img/back-arrow.svg" alt="" />
-        </div>
         <button id="start-button" onclick="start_game()">Restart</button>
-        <button id="undo-last-move" onclick="undoLastMove()">Back</button>
+        <div id="back-container" onclick="backToChooseSize()">
+          <img id="back" src="img/back-arrow.svg" alt="" />
+        </div>
+        <button id="undo-last-move" onclick="undoLastMove()">
+          <img id="undo-last-move-img" src="img/undo-disabled.svg" alt="" />
+        </button>
       </div>
       <div class="game-area"></div>
 
