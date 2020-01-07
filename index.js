@@ -12,6 +12,7 @@ const animation_move_interval = 1;
 const token_spawn_delay = 100;
 let game_over = false;
 
+let gameAreaSieLength = 295; // in pixels
 const chooseGameAreaSize = [
   "img/3x3.png",
   "img/4x4.png",
@@ -446,20 +447,20 @@ const chooseSize = () => {
   )[0].style.display = "grid";
 
   token_side_length =
-    (295 - grid_gap_width * (sizeHelper + 2)) / (sizeHelper + 3);
+    (gameAreaSieLength - grid_gap_width * (sizeHelper + 2)) / (sizeHelper + 3);
 
   start_game();
 };
 
 const showHelp = () => {
-  let how_to_play_box = document.getElementById("how-to-play-box");
-  let help = document.getElementById("help");
+  let how_to_play_box = document.getElementById("how-to-play-outer-container");
+  let help = document.getElementById("footer");
   how_to_play_box.style.display = "block";
   help.style.display = "none";
 };
 const closeHelp = () => {
-  let how_to_play_box = document.getElementById("how-to-play-box");
-  let help = document.getElementById("help");
+  let how_to_play_box = document.getElementById("how-to-play-outer-container");
+  let help = document.getElementById("footer");
   how_to_play_box.style.display = "none";
   help.style.display = "block";
 };

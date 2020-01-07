@@ -23,8 +23,13 @@
   <body>
     <div class="frame">
       <div id="headline">2048</div>
-      <div id="fullscreen-container" onclick="toggleFullscreen()">
-        <img id="fullscreen-icon" src="img/fullscreen-icon.png" alt="" />
+      <div id="fullscreen-container">
+        <img
+          onclick="toggleFullscreen()"
+          id="fullscreen-icon"
+          src="img/fullscreen-icon.png"
+          alt=""
+        />
       </div>
       <div class="score-and-buttons-container">
         <div id="score-container">
@@ -68,23 +73,42 @@
 
       <div class="game-over">GAME OVER</div>
 
-      <div id="help" onclick="showHelp()">
-        <p id="question-mark">?</p>
+      <div id="footer">
+        <!-- <p onclick="showHelp()" id="question-mark">?</p> -->
+
+        <p onclick="showHelp()" id="question-mark">?</p>
       </div>
-      <div id="how-to-play-box">
-        <p id="how-to-play">How to play:</p>
-        <p class="how-to-play-text">
-          1. Choose the size of the game area
-        </p>
-        <p class="how-to-play-text">
-          2. Use your arrow keys or swipe to move the tiles. When two tiles with
-          the same number touch, they merge into one. Try to beat your high
-          score!
-        </p>
-        <p id="close" onclick="closeHelp()">X</p>
+      <div id="how-to-play-outer-container">
+        <div id="how-to-play-inner-container">
+          <p id="how-to-play">How to play:</p>
+          <p class="how-to-play-text">
+            1. Choose the size of the game area
+          </p>
+          <p class="how-to-play-text">
+            2. Use your arrow keys or swipe to move the tiles. When two tiles
+            with the same number touch, they merge into one. Try to beat your
+            high score!
+          </p>
+          <div class="social-container">
+            <a
+              class="social-media-links"
+              target="_blank"
+              href="https://github.com/ocbtec/2048"
+            >
+              <img id="github-icon" src="img/github-32px.png" alt="" />
+            </a>
+            <a
+              class="social-media-links"
+              target="_blank"
+              href="https://www.linkedin.com/in/richard-tepfenhart/"
+            >
+              <img id="linked-icon" src="img/linkedin.png" alt="" />
+            </a>
+          </div>
+          <p id="close" onclick="closeHelp()">X</p>
+        </div>
       </div>
     </div>
-
     <script src="index.js" type="text/javascript"></script>
   </body>
 </html>
