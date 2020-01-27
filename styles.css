@@ -170,17 +170,10 @@ body {
   height: 70px;
   border-top: 1px #e6e8e3 solid;
 }
-#github-link {
-  width: 25px;
-  height: 25px;
-  margin: 0;
-  padding: 0;
-  text-decoration: none !important;
-}
-.social-media-links {
-  /* display: none; */
-  /* width: 40px;
-  height: 40px; */
+#website-icon {
+  width: 32px;
+  margin-left: 10px;
+  opacity: 0.6;
 }
 #linked-icon {
   width: 32px;
@@ -190,6 +183,7 @@ body {
 #github-icon {
   width: 32px;
   opacity: 0.5;
+  margin-left: 10px;
 }
 #question-mark {
   float: right;
