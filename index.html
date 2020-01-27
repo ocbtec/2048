@@ -38,11 +38,21 @@
           <p id="score-label">Score</p>
           <p id="score-value">0</p>
         </div>
-        <button id="start-button" onclick="start_game()">Restart</button>
-        <div id="back-container" onclick="backToChooseSize()">
+        <button id="start-button" onclick="start_game()" title="Restart game">
+          Restart
+        </button>
+        <div
+          id="back-container"
+          onclick="backToChooseSize()"
+          title="Return to menu"
+        >
           <img id="back" src="img/back-arrow.svg" alt="" />
         </div>
-        <button id="undo-last-move" onclick="undoLastMove()">
+        <button
+          id="undo-last-move"
+          onclick="undoLastMove()"
+          title="Undo last move"
+        >
           <img id="undo-last-move-img" src="img/undo-disabled.svg" alt="" />
         </button>
       </div>
@@ -56,6 +66,7 @@
           src="img/3x3.png"
           alt=""
           onclick="chooseSize()"
+          title="Start game"
         />
         <div class="choose-game-area">
           <img
@@ -80,7 +91,7 @@
       <div id="footer">
         <!-- <p onclick="showHelp()" id="question-mark">?</p> -->
 
-        <p onclick="showHelp()" id="question-mark">?</p>
+        <p onclick="showHelp()" id="question-mark" title="Show help">?</p>
       </div>
       <div id="how-to-play-outer-container">
         <div id="how-to-play-inner-container">
@@ -91,6 +102,9 @@
           <p class="how-to-play-text">
             2. Use your arrow keys or swipe to move the tiles. When two tiles
             with the same number touch, they merge into one.
+          </p>
+          <p class="how-to-play-text">
+            3. On mobile devices, go to full screen with the button top right
           </p>
           <div class="social-container">
             <a
