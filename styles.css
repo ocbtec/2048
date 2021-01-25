@@ -23,6 +23,7 @@ body {
 }
 
 .score-and-buttons-container {
+  position: relative;
   margin-top: 20px;
   display: none;
   grid-template-rows: 50px 40px;
@@ -225,10 +226,12 @@ p {
   width: 200px;
   height: 100px;
   position: absolute;
-  top: 200px;
+  top: 150px;
+  left: 52px;
   text-align: center;
   line-height: 100px;
   color: #eee6d9;
   background-color: #313131cf;
   font-size: 20pt;
+  z-index: 10;
 }
