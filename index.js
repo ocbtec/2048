@@ -400,14 +400,20 @@ class MyGrid {
 }
 
 // check for displaying full screen icon
-window.addEventListener('resize', () => {
-  let viewportWidth = window.innerWidth;
-  const fullScreenIcon = document.getElementById('fullscreen-icon');
+const fullScreenIcon = document.getElementById('fullscreen-icon');
+const displayFullScreenIcon = () => {
+  viewportWidth = window.innerWidth;
   if (viewportWidth > 1024) {
+    console.log('none');
     fullScreenIcon.style.display = 'none';
   } else {
+    console.log('inline');
     fullScreenIcon.style.display = 'inline';
   }
+}
+displayFullScreenIcon();
+window.addEventListener('resize', () => {
+  displayFullScreenIcon();
 });
 
 const gameOver = () => {
