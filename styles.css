@@ -30,14 +30,15 @@ body {
   width: 300px;
 }
 #headline {
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 30pt;
+  text-align: center;
   color: #31535f;
 }
 
 #fullscreen-container {
   position: absolute;
-  top: 30px;
+  top: 40px;
   width: 300px;
   text-align: right;
 }
@@ -132,14 +133,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 30px;
   color: #27505f;
   font-size: 16pt;
 }
 
 #choose-game-area-img {
-  width: 300px;
-  height: 300px;
+  width: 305px;
+  height: 305px;
   cursor: pointer;
 }
 
@@ -165,7 +166,7 @@ body {
 #footer {
   position: fixed;
   bottom: 10px;
-  width: 300px;
+  width: 305px;
   font-size: 22pt;
 }
 .social-container {

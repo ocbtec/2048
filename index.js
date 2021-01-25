@@ -399,21 +399,37 @@ class MyGrid {
   }
 }
 
-// check for displaying full screen icon
+// check for displaying full screen icon and white border
+const desktopContainer = document.getElementsByClassName('desktop-container')[0];
+const setMobileView = () => {
+  desktopContainer.style.cssText = 'padding: 20px; margin-top: 100px; border: 2px solid white;'
+}
+const setDesktopView = () => {
+  desktopContainer.style.cssText = 'padding: 0; margin-top: 0; border: none'
+}
+
 const fullScreenIcon = document.getElementById('fullscreen-icon');
 const displayFullScreenIcon = () => {
   viewportWidth = window.innerWidth;
   if (viewportWidth > 1024) {
-    console.log('none');
     fullScreenIcon.style.display = 'none';
   } else {
-    console.log('inline');
     fullScreenIcon.style.display = 'inline';
   }
 }
+const displayWhiteBorder = () => {
+  viewportWidth = window.innerWidth;
+  if (viewportWidth >= 768) {
+    setMobileView();
+  } else {
+    setDesktopView();
+  }
+}
 displayFullScreenIcon();
+displayWhiteBorder();
 window.addEventListener('resize', () => {
   displayFullScreenIcon();
+  displayWhiteBorder();
 });
 
 const gameOver = () => {
