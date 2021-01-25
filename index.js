@@ -477,7 +477,7 @@ const enableBackButton = () => {
   let undo_button = document.getElementById("undo-last-move");
   let undo_button_img = document.getElementById("undo-last-move-img");
   undo_button.disabled = false;
-  undo_button.style.cssText = `color: #525252; background-color: #fdfbc1`;
+  undo_button.style.cssText = `color: #525252; background-color: #fdfbc1; cursor: pointer`;
   undo_button_img.src = "img/undo.svg";
 };
 

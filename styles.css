@@ -43,6 +43,7 @@ body {
 }
 #fullscreen-icon {
   width: 20px;
+  cursor: pointer;
 }
 
 #score-container {
@@ -69,6 +70,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 46px;
+  cursor: pointer;
 }
 #back {
   height: 20px;
@@ -76,6 +78,7 @@ body {
 #start-button {
   grid-row: 1;
   grid-column: 3;
+  cursor: pointer;
 }
 #undo-last-move {
   display: flex;
@@ -137,11 +140,13 @@ body {
 #choose-game-area-img {
   width: 300px;
   height: 300px;
+  cursor: pointer;
 }
 
 #left,
 #right {
   width: 30px;
+  cursor: pointer;
 }
 
 .game-area {
@@ -194,6 +199,7 @@ body {
   text-align: center;
   background-color: #4e4e58;
   color: #e6e8e3;
+  cursor: pointer;
 }
 #close {
   position: absolute;
