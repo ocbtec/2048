@@ -108,24 +108,6 @@ body {
   height: 20px;
 }
 
-/* #game-area-size-1 {
-  position: relative;
-  display: none;
-  grid-template-rows: 1fr 1fr 1fr;
-  row-gap: 5px;
-  column-gap: 5px;
-  grid-template-columns: 1fr 1fr 1fr;
-  border: 5px solid #888888;
-  border-radius: 5px;
-  left: 0;
-  right: 0;
-  background-color: #888888;
-  height: 195px;
-  width: 195px;
-  margin: 20px auto;
-  opacity: 0.5;
-} */
-
 .choose-game-area-container {
   margin-top: 50px;
 }
@@ -250,54 +232,3 @@ p {
   background-color: #313131cf;
   font-size: 20pt;
 }
-
-/* @media (-webkit-device-pixel-ratio: 1) { */
-/* @media screen and (min-width: 500px) and (max-width: 699px) {
-  .frame {
-    position: relative;
-    top: 3.5% !important;
-    bottom: 3.5% !important;
-    left: 3.5% !important;
-    right: 3.5% !important;
-    width: 93% !important;
-    height: 93% !important;
-    background: lightblue !important;
-  }
-}
-@media screen and (min-width: 700px) and (max-width: 899px) {
-  .frame {
-    position: relative;
-    top: 3.5% !important;
-    bottom: 3.5% !important;
-    left: 3.5% !important;
-    right: 3.5% !important;
-    width: 93% !important;
-    height: 93% !important;
-    background: lightcoral !important;
-  }
-}
-@media screen and (min-width: 900px) {
-  .frame {
-    position: relative;
-    top: 3.5% !important;
-    bottom: 3.5% !important;
-    left: 2.5% !important;
-    right: 2.5% !important;
-    width: 95% !important;
-    height: 93% !important;
-    background: lightgray !important;
-  }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
-  .frame {
-    position: relative;
-    top: 2.5% !important;
-    bottom: 2.5% !important;
-    left: 3.5% !important;
-    right: 3.5% !important;
-    width: 93% !important;
-    height: 95% !important;
-    background: lightcoral !important;
-  }
-} */

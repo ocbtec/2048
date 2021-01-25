@@ -1066,49 +1066,6 @@ const toggleFullscreen = () => {
 
 let myElement = document.querySelector("body");
 
-// create a simple instance
-// by default, it only adds horizontal recognizers
-// let mc = new Hammer(myElement);
-
-// listen to events...
-// mc.on("panup pandown panleft panright", function(ev) {
-//   console.log(ev.type + " gesture detected.");
-
-//   if (ev.type == "pandown") {
-//     down();
-//   }
-//   if (ev.type == "panup") {
-//     up();
-//   }
-//   if (ev.type == "panleft") {
-//     left();
-//   }
-//   if (ev.type == "pan right") {
-//     right();
-//   }
-// });
-
-// let body = document.querySelector("body");
-// let hammertime = new Hammer(body);
-// hammertime.on("swipe", function(ev) {
-//   console.log(ev);
-//   if (ev.direction == 8) {
-//     console.log("up");
-//     up();
-//   } else if (ev.direction == 16) {
-//     console.log("down");
-//     down();
-//   } else if (ev.direction == 2) {
-//     console.log("left");
-//     left();
-//   } else if (ev.direction == 4) {
-//     console.log("right");
-//     right();
-//   }
-// });
-
-// hammertime.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
-
 document.webkitCancelFullScreen();
 let container = document.querySelector(".frame");
 
