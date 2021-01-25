@@ -399,6 +399,17 @@ class MyGrid {
   }
 }
 
+// check for displaying full screen icon
+window.addEventListener('resize', () => {
+  let viewportWidth = window.innerWidth;
+  const fullScreenIcon = document.getElementById('fullscreen-icon');
+  if (viewportWidth > 1024) {
+    fullScreenIcon.style.display = 'none';
+  } else {
+    fullScreenIcon.style.display = 'inline';
+  }
+});
+
 const gameOver = () => {
   setTimeout(() => {
     document.querySelector(".game-area").style.opacity = "0.5";

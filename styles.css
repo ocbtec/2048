@@ -206,6 +206,7 @@ body {
   top: 5px;
   right: 20px;
   font-size: 20pt;
+  cursor: pointer;
 }
 p {
   margin-bottom: 5px;
