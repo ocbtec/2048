@@ -852,6 +852,7 @@ const undoLastMove = () => {
   score_value.innerHTML = score_backup;
   score = score_backup;
   disableBackButton();
+  document.querySelector(".frame").focus();
 };
 
 const right = () => {
