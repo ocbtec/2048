@@ -402,7 +402,7 @@ class MyGrid {
 // check for displaying full screen icon and white border
 const desktopContainer = document.getElementsByClassName('desktop-container')[0];
 const setMobileView = () => {
-  desktopContainer.style.cssText = 'padding: 20px; margin-top: 100px; border: 2px solid white;'
+  desktopContainer.style.cssText = 'border: 2px solid white;'
 }
 const setDesktopView = () => {
   desktopContainer.style.cssText = 'padding: 0; margin-top: 0; border: none'
@@ -487,15 +487,11 @@ const chooseSize = () => {
 
 const showHelp = () => {
   let how_to_play_box = document.getElementById("how-to-play-outer-container");
-  let help = document.getElementById("footer");
   how_to_play_box.style.display = "block";
-  help.style.display = "none";
 };
 const closeHelp = () => {
   let how_to_play_box = document.getElementById("how-to-play-outer-container");
-  let help = document.getElementById("footer");
   how_to_play_box.style.display = "none";
-  help.style.display = "block";
 };
 
 const disableBackButton = () => {
